@@ -210,6 +210,48 @@ h2 { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap:
 .calkey { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ink-2); font-weight: 600; }
 .calkey span { display: inline-flex; align-items: center; gap: 6px; }
 .calkey i { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+.wk { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.wkc { display: grid; justify-items: center; gap: 4px; }
+.wl { font-size: 11.5px; font-weight: 800; color: var(--ink-3); }
+.wp { font-size: 11.5px; font-weight: 700; color: var(--ink-2); min-height: 16px; }
+.dr { position: relative; width: 100%; max-width: 100%; aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; }
+.dr svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.dr .trk { fill: none; stroke: #ECEAF3; stroke-width: 3.6; }
+.dr .arc { fill: none; stroke: var(--pink); stroke-width: 3.6; stroke-linecap: round; transition: stroke-dashoffset .5s ease; }
+.dr .arc.rest { stroke: var(--violet); }
+.dr.full .trk { fill: #FFE6F2; }
+.dr.full .arc { filter: drop-shadow(0 0 3px rgba(255, 46, 147, .65)); }
+.dr.off .trk { stroke: var(--cyan); stroke-dasharray: 2.5 3; fill: #F1FCFE; }
+.dr.fut .trk, .dr.pre .trk { stroke: #F4F3F8; }
+.dr .dn { position: relative; font-size: 12.5px; font-weight: 700; color: var(--ink-2); }
+.dr.full .dn { color: var(--pink-deep); font-weight: 800; }
+.dr.fut .dn, .dr.pre .dn { color: #C9C7D6; font-weight: 500; }
+.dr.today .dn { color: var(--ink); font-weight: 800; }
+.dr.today::after { content: ""; position: absolute; bottom: -5px; width: 5px; height: 5px; border-radius: 50%; background: var(--ink); }
+.dr .wo { position: absolute; right: 2%; top: 2%; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 1.5px #fff, 0 0 6px var(--lime); }
+.wkc .dr .dn { font-size: 14px; }
+.stats4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.mcard { padding: 16px 14px; border-radius: 24px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 10px 30px -18px rgba(139, 92, 255, .45); }
+.mhead { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.mname { font-family: var(--display); font-size: 16px; font-weight: 700; }
+.mgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 9px 7px; }
+.mgrid .hd { font-size: 11px; font-weight: 800; color: var(--ink-3); text-align: center; }
+.rkey { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ink-2); font-weight: 600; }
+.rkey span { display: inline-flex; align-items: center; gap: 6px; }
+.kr { width: 13px; height: 13px; border-radius: 50%; display: inline-block; box-shadow: inset 0 0 0 2.5px #ECEAF3; }
+.kr.full { box-shadow: inset 0 0 0 2.5px var(--pink); background: #FFE6F2; }
+.kr.half { background: conic-gradient(var(--pink) 0 50%, #ECEAF3 50% 100%); box-shadow: none; -webkit-mask: radial-gradient(circle, transparent 3.5px, #000 4px); mask: radial-gradient(circle, transparent 3.5px, #000 4px); }
+.kr.rest { box-shadow: inset 0 0 0 2.5px var(--violet); }
+.kr.off { box-shadow: none; border: 2px dashed var(--cyan); }
+.kw { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background: var(--lime); }
+.rsum { display: grid; gap: 6px; padding: 16px; border-radius: 20px; background: var(--glow); color: #fff; }
+.rsum b { font-family: var(--display); font-size: 26px; }
+.rsum span { font-weight: 600; font-size: 14px; }
+.lbar { display: block; height: 6px; border-radius: 6px; background: rgba(255,255,255,.3); overflow: hidden; }
+.lbar i { display: block; height: 100%; background: #fff; border-radius: 6px; }
+details.earnbox summary { cursor: pointer; font-weight: 800; font-size: 15px; color: var(--violet); list-style: none; padding: 6px 0; }
+details.earnbox summary::-webkit-details-marker { display: none; }
+details.earnbox[open] { display: grid; gap: 8px; }
 .hist { list-style: none; margin: 0; padding: 0; font-size: 14px; color: var(--ink-2); display: grid; gap: 6px; }
 
 .week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
@@ -302,7 +344,7 @@ details.notes[open] { display: grid; gap: 14px; }
   <div class="in">
     <button data-act="tab" data-tab="today" id="tab-today"><span class="e" aria-hidden="true">✅</span>Today</button>
     <button data-act="tab" data-tab="outside" id="tab-outside"><span class="e" aria-hidden="true">🚶‍♀️</span>Outside</button>
-    <button data-act="tab" data-tab="rewards" id="tab-rewards"><span class="e" aria-hidden="true">🎁</span>Rewards</button>
+    <button data-act="tab" data-tab="progress" id="tab-progress"><span class="e" aria-hidden="true">📈</span>Progress</button>
     <button data-act="tab" data-tab="plan" id="tab-plan"><span class="e" aria-hidden="true">⚙️</span>Plan</button>
   </div>
 </nav>
@@ -408,7 +450,7 @@ details.notes[open] { display: grid; gap: 14px; }
 
   /* ---------- state ---------- */
   var S = { settings: mergeSettings(null), days: {} };
-  var ui = { tab: "today", date: todayKey(), selStep: null, confirmReset: false, confirmFresh: false, claim: null, editRewards: false, offAsk: false, bkShow: false, bkIn: false, bkCode: "" };
+  var ui = { month: null, tab: "today", date: todayKey(), selStep: null, confirmReset: false, confirmFresh: false, claim: null, editRewards: false, offAsk: false, bkShow: false, bkIn: false, bkCode: "" };
   var timer = null;
   var lastToday = todayKey(), lastMin = -1;
 
@@ -634,7 +676,7 @@ details.notes[open] { display: grid; gap: 14px; }
     return '<svg viewBox="0 0 92 92" aria-hidden="true"><circle class="tr" cx="46" cy="46" r="' + r + '"/><circle class="pr" cx="46" cy="46" r="' + r + '" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + (c * (1 - pct)).toFixed(1) + '"/></svg>';
   }
   function topBar(T) {
-    return '<header class="top"><span class="brand">Glow Up</span><button class="spark" data-act="tab" data-tab="rewards" id="top-sparks" aria-label="' + T.balance + ' sparks, open rewards"><span class="dotb"></span>⚡ ' + T.balance + "</button></header>";
+    return '<header class="top"><span class="brand">Glow Up</span><button class="spark" data-act="tab" data-tab="progress" id="top-sparks" aria-label="' + T.balance + ' sparks, open progress and rewards"><span class="dotb"></span>⚡ ' + T.balance + "</button></header>";
   }
 
   function vToday() {
@@ -652,8 +694,8 @@ details.notes[open] { display: grid; gap: 14px; }
     else if (T.streak > 0) h += '<span class="l num">🔥 ' + T.streak + "-day streak</span>";
     h += "</div></div>";
     var rs = rewardsSorted(), can = rs.filter(function (r) { return r.cost <= T.balance; }), nxt = rs.filter(function (r) { return r.cost > T.balance; })[0];
-    if (can.length) h += '<button class="next" data-act="tab" data-tab="rewards" id="hero-next">🎁 You can claim ' + esc(can[can.length - 1].emoji + " " + can[can.length - 1].name) + "</button>";
-    else if (nxt) h += '<button class="next" data-act="tab" data-tab="rewards" id="hero-next"><span class="num">Next reward: ' + esc(nxt.emoji + " " + nxt.name) + " · " + Math.max(0, T.balance) + "/" + nxt.cost + '</span><span class="nb"><i style="width:' + Math.round(clamp(T.balance / nxt.cost, 0, 1) * 100) + '%"></i></span></button>';
+    if (can.length) h += '<button class="next" data-act="tab" data-tab="progress" id="hero-next">🎁 You can claim ' + esc(can[can.length - 1].emoji + " " + can[can.length - 1].name) + "</button>";
+    else if (nxt) h += '<button class="next" data-act="tab" data-tab="progress" id="hero-next"><span class="num">Next reward: ' + esc(nxt.emoji + " " + nxt.name) + " · " + Math.max(0, T.balance) + "/" + nxt.cost + '</span><span class="nb"><i style="width:' + Math.round(clamp(T.balance / nxt.cost, 0, 1) * 100) + '%"></i></span></button>';
     h += "</section>";
 
     if (k < effStart()) h += '<p class="daynote">Your fresh start begins ' + esc(fmt(effStart(), { weekday: "long", day: "numeric", month: "long" })) + ". Nothing before then counts.</p>";
@@ -780,19 +822,58 @@ details.notes[open] { display: grid; gap: 14px; }
   }
   function hideTip() { var tip = $("#tip"), hl = $("#hl"); if (tip) tip.hidden = true; if (hl) hl.setAttribute("opacity", "0"); }
 
-  function vRewards() {
-    var s = S.settings, T = totals(), L = levelOf(T.earned), t = todayKey(), st = effStart();
-    var h = topBar(T) + '<header><h1>Rewards 🎁</h1></header>';
-    h += '<section class="hero"><p class="lv">Sparks to spend</p><div class="bal">⚡ ' + T.balance + "</div>";
-    h += '<div class="lvl"><span>Level ' + L.n + " · " + L.name + ' <span style="opacity:.85">(' + T.earned + " earned)</span></span>";
-    h += '<span class="nb"><i style="width:' + Math.round(clamp((T.earned - L.from) / (L.to - L.from), 0, 1) * 100) + '%"></i></span>';
-    h += "<span>" + (T.streak ? "🔥 " + T.streak + "-day streak. Every 7 days in a row is +100 ⚡" : "🔥 Do 75% of a day to start a streak. 7 in a row is +100 ⚡") + "</span></div></section>";
+  function dayRing(k) {
+    var t = todayKey(), st = effStart(), type = getType(k), state, pct = 0;
+    var label = fmt(k, { weekday: "long", day: "numeric", month: "long" });
+    if (k > t) { state = "fut"; label += ", upcoming"; }
+    else if (k < st) { state = "pre"; label += ", before your start"; }
+    else if (type === "off") { state = "off"; label += ", day off"; }
+    else { pct = score(k).pct; state = pct >= 1 ? "full" : "on"; label += ", " + Math.round(pct * 100) + "% done" + (type === "rest" ? ", rest day" : ""); }
+    var walked = k >= st && k <= t && ((day(k) || {}).walks || []).length > 0;
+    if (walked) label += ", walked outside";
+    var c = 2 * Math.PI * 15;
+    var svg = '<svg viewBox="0 0 36 36" aria-hidden="true"><circle class="trk" cx="18" cy="18" r="15"/>' + (pct > 0 ? '<circle class="arc' + (type === "rest" ? " rest" : "") + '" cx="18" cy="18" r="15" stroke-dasharray="' + c.toFixed(2) + '" stroke-dashoffset="' + (c * (1 - pct)).toFixed(2) + '" transform="rotate(-90 18 18)"/>' : "") + "</svg>";
+    var inner = svg + '<span class="dn num">' + fromKey(k).getDate() + "</span>" + (walked ? '<span class="wo"></span>' : "");
+    var cls = "dr " + state + (k === t ? " today" : "");
+    if (k <= t) return '<button class="' + cls + '" data-act="openday" data-date="' + k + '" id="ring-' + k + '" title="' + esc(label) + '" aria-label="' + esc(label) + '">' + inner + "</button>";
+    return '<div class="' + cls + '" title="' + esc(label) + '" aria-label="' + esc(label) + '">' + inner + "</div>";
+  }
 
-    h += '<section class="sec"><h2>🛍️ Treat yourself<button class="btn line sm" style="margin-left:auto;min-height:34px" data-act="editrw" id="rw-edit">' + (ui.editRewards ? "Done" : "Edit") + "</button></h2>";
+  function vProgress() {
+    var s = S.settings, T = totals(), L = levelOf(T.earned), t = todayKey(), st = effStart();
+    var h = topBar(T) + '<header><h1>Progress 📈</h1></header>';
+
+    var ws = weekStart(t), outDays = 0;
+    h += '<section class="sec"><h2>This week</h2><div class="wk">';
+    for (var i = 0; i < 7; i++) {
+      var dk = addDays(ws, i), sc0 = score(dk), off0 = getType(dk) === "off";
+      if (dk <= t && dk >= st && ((day(dk) || {}).walks || []).length) outDays++;
+      var under = dk > t || dk < st ? "" : off0 ? "off" : Math.round(sc0.pct * 100) + "%";
+      h += '<div class="wkc"><span class="wl">' + ["M", "T", "W", "T", "F", "S", "S"][i] + "</span>" + dayRing(dk) + '<span class="wp num">' + under + "</span></div>";
+    }
+    h += "</div></section>";
+
+    var n = 0, sum = 0, perfect = 0;
+    for (var k = st; k <= t; k = addDays(k, 1)) { var sc = score(k); if (sc.off || (k === t && !hasAny(k))) continue; n++; sum += sc.pct; if (sc.pct === 1) perfect++; }
+    h += '<section class="stats4"><div class="stat"><b>' + (n ? Math.round(sum / n * 100) + "%" : "–") + '</b><span>Average day</span></div><div class="stat"><b>' + perfect + '</b><span>Perfect days</span></div><div class="stat"><b>🔥 ' + T.streak + '</b><span>Day streak</span></div><div class="stat"><b>' + outDays + "</b><span>Walks this week</span></div></section>";
+
+    var mk = ui.month || t.slice(0, 7), y = Number(mk.slice(0, 4)), m = Number(mk.slice(5, 7));
+    var first = mk + "-01", minMonth = st.slice(0, 7) < t.slice(0, 7) ? st.slice(0, 7) : t.slice(0, 7);
+    var monthName = new Date(y, m - 1, 1).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+    h += '<section class="sec mcard"><div class="mhead"><button class="arrow" data-act="month" data-d="-1" id="m-prev" aria-label="Previous month"' + (mk <= minMonth ? " disabled" : "") + '>‹</button><h2 class="mname">' + esc(monthName) + '</h2><button class="arrow" data-act="month" data-d="1" id="m-next" aria-label="Next month"' + (mk >= t.slice(0, 7) ? " disabled" : "") + ">›</button></div>";
+    h += '<div class="mgrid" role="group" aria-label="' + esc(monthName) + ', one ring per day">';
+    ["M", "T", "W", "T", "F", "S", "S"].forEach(function (d) { h += '<span class="hd" aria-hidden="true">' + d + "</span>"; });
+    var lead = (fromKey(first).getDay() + 6) % 7;
+    for (var b = 0; b < lead; b++) h += '<span aria-hidden="true"></span>';
+    for (var dd = 1; dd <= new Date(y, m, 0).getDate(); dd++) h += dayRing(mk + "-" + pad(dd));
+    h += '</div><div class="rkey"><span><i class="kr full"></i>All done</span><span><i class="kr half"></i>Part done</span><span><i class="kr rest"></i>Rest day</span><span><i class="kr off"></i>Day off</span><span><i class="kw"></i>Walked outside</span></div><p class="faint">Tap a day to open it and fill in anything you missed.</p></section>';
+
+    h += '<section class="sec"><h2>🎁 Rewards</h2><div class="rsum"><div><b class="num">⚡ ' + T.balance + '</b> <span>sparks to spend</span></div><span class="lvln">Level ' + L.n + " · " + L.name + '</span><span class="lbar"><i style="width:' + Math.round(clamp((T.earned - L.from) / (L.to - L.from), 0, 1) * 100) + '%"></i></span></div>';
+    h += '<div style="display:flex;justify-content:flex-end"><button class="btn line sm" style="min-height:34px" data-act="editrw" id="rw-edit">' + (ui.editRewards ? "Done" : "Edit rewards") + "</button></div>";
     if (ui.editRewards) {
       h += '<div class="ld">';
-      s.rewards.forEach(function (r, i) {
-        h += '<div class="redit"><input class="inp" style="text-align:center;font-size:20px" maxlength="8" id="rwe-' + i + '" data-set="rw" data-f="emoji" data-i="' + i + '" value="' + esc(r.emoji) + '" aria-label="Emoji"><input class="inp" id="rwn-' + i + '" data-set="rw" data-f="name" data-i="' + i + '" value="' + esc(r.name) + '" aria-label="Reward"><input class="inp num" type="number" min="50" step="50" id="rwc-' + i + '" data-set="rw" data-f="cost" data-i="' + i + '" value="' + r.cost + '" aria-label="Cost in sparks"><button class="x" data-act="rwdel" data-i="' + i + '" id="rwd-' + i + '" aria-label="Remove reward">×</button></div>';
+      s.rewards.forEach(function (r, i2) {
+        h += '<div class="redit"><input class="inp" style="text-align:center;font-size:20px" maxlength="8" id="rwe-' + i2 + '" data-set="rw" data-f="emoji" data-i="' + i2 + '" value="' + esc(r.emoji) + '" aria-label="Emoji"><input class="inp" id="rwn-' + i2 + '" data-set="rw" data-f="name" data-i="' + i2 + '" value="' + esc(r.name) + '" aria-label="Reward"><input class="inp num" type="number" min="50" step="50" id="rwc-' + i2 + '" data-set="rw" data-f="cost" data-i="' + i2 + '" value="' + r.cost + '" aria-label="Cost in sparks"><button class="x" data-act="rwdel" data-i="' + i2 + '" id="rwd-' + i2 + '" aria-label="Remove reward">×</button></div>';
       });
       h += '</div><div><button class="btn line sm" data-act="rwadd" id="rw-add">Add a reward</button></div>';
     } else {
@@ -808,34 +889,11 @@ details.notes[open] { display: grid; gap: 14px; }
       });
       h += "</ul>";
     }
-    h += "</section>";
-
-    h += '<section class="sec"><h2>⚡ How you earn</h2><ul class="earn">';
+    h += '<details class="earnbox"><summary>⚡ How you earn sparks</summary><ul class="earn">';
     [["🚶‍♀️ Outside walk", 40], ["🛋️ Walk on a day off", 60], ["🔁 Extra walk", 20], ["💊 Evening meds", 20], ["💊 Morning meds", 10], ["💃 Cardio", 20], ["🦵 Squats", 15], ["📖 Read", 15], ["📵 Detox", 15], ["☀️ Wake early", 10], ["💧 Water", 10], ["🧽 Tidy", 10], ["😴 Early night", 10], ["🌟 Perfect day", 50], ["🔥 7-day streak", 100], ["🪜 New step", 100], ["💪 Fitness level up", 50]].forEach(function (e) {
       h += "<li><span>" + e[0] + "</span><b>+" + e[1] + "</b></li>";
     });
-    h += "</ul></section>";
-
-    var n = 0, sum = 0, perfect = 0;
-    for (var k = st; k <= t; k = addDays(k, 1)) { var sc = score(k); if (sc.off || (k === t && !hasAny(k))) continue; n++; sum += sc.pct; if (sc.pct === 1) perfect++; }
-    var ws = weekStart(t), outDays = 0;
-    for (var i = 0; i < 7; i++) { var dk = addDays(ws, i); if (dk > t) break; if (dk >= st && ((day(dk) || {}).walks || []).length) outDays++; }
-    h += '<section class="sec"><h2>📅 Last six weeks</h2><div class="stats"><div class="stat"><b>' + (n ? Math.round(sum / n * 100) + "%" : "–") + '</b><span>Average day</span></div><div class="stat"><b>' + perfect + '</b><span>Perfect days</span></div><div class="stat"><b>' + outDays + "</b><span>Walks this week</span></div></div>";
-    h += '<div class="cal" role="group" aria-label="Daily completion, last six weeks">';
-    ["M", "T", "W", "T", "F", "S", "S"].forEach(function (d) { h += '<div class="hd" aria-hidden="true">' + d + "</div>"; });
-    var first = addDays(weekStart(t), -35);
-    for (var j = 0; j < 42; j++) {
-      var ck = addDays(first, j), type = getType(ck), cls = "cell", label = fmt(ck, { weekday: "short", day: "numeric", month: "short" }), extra = "";
-      if (ck > t) { cls += " fut"; label += ", upcoming"; }
-      else if (ck < st) { cls += " pre"; label += ", before your start"; }
-      else if (type === "off") { cls += " off"; label += ", day off"; }
-      else { var p2 = score(ck).pct; cls += p2 >= 1 ? " l4" : p2 >= .75 ? " l3" : p2 >= .5 ? " l2" : p2 > 0 ? " l1" : ""; label += ", " + Math.round(p2 * 100) + "%" + (type === "rest" ? ", rest day" : ""); }
-      if (ck >= st && ((day(ck) || {}).walks || []).length) { extra = '<span class="o"></span>'; label += ", walked outside"; }
-      if (ck === t) cls += " today";
-      var click = ck <= t;
-      h += (click ? "<button" : "<div") + ' class="' + cls + '" ' + (click ? 'data-act="openday" data-date="' + ck + '" id="cal-' + ck + '" ' : "") + 'title="' + esc(label) + '" aria-label="' + esc(label) + '">' + fromKey(ck).getDate() + extra + (click ? "</button>" : "</div>");
-    }
-    h += '</div><div class="calkey"><span><i style="background:#FFD6EA"></i>Some</span><span><i style="background:var(--pink)"></i>All done</span><span><i style="background:repeating-linear-gradient(135deg,#E3F9FD 0 3px,#fff 3px 6px)"></i>Day off</span><span><i style="width:8px;height:8px;border-radius:50%;background:var(--lime)"></i>Walked outside</span></div></section>';
+    h += "</ul></details></section>";
 
     if (s.claims.length) {
       h += '<section class="sec"><h2>🏆 Claimed</h2><ul class="hist">';
@@ -902,7 +960,7 @@ details.notes[open] { display: grid; gap: 14px; }
   }
 
   /* ---------- render ---------- */
-  var VIEWS = { today: vToday, outside: vOutside, rewards: vRewards, plan: vPlan };
+  var VIEWS = { today: vToday, outside: vOutside, progress: vProgress, plan: vPlan };
   function render() {
     fitCache = {};
     $("#view").innerHTML = VIEWS[ui.tab]();
@@ -910,7 +968,7 @@ details.notes[open] { display: grid; gap: 14px; }
     document.querySelectorAll(".tabs button").forEach(function (b) {
       if (b.dataset.tab === ui.tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
       var old = b.querySelector(".badge"); if (old) old.remove();
-      if (b.dataset.tab === "rewards" && ui.tab !== "rewards" && canClaimAny(T.balance)) { var sp = document.createElement("span"); sp.className = "badge"; b.appendChild(sp); }
+      if (b.dataset.tab === "progress" && ui.tab !== "progress" && canClaimAny(T.balance)) { var sp = document.createElement("span"); sp.className = "badge"; b.appendChild(sp); }
     });
     renderPill();
   }
@@ -1090,6 +1148,7 @@ details.notes[open] { display: grid; gap: 14px; }
     var act = b.dataset.act, k = ui.date, s = S.settings, d, be, bp;
     switch (act) {
       case "tab": go(b.dataset.tab); break;
+      case "month": { var cm = ui.month || todayKey().slice(0, 7), yy = Number(cm.slice(0, 4)), mm = Number(cm.slice(5, 7)) - 1 + Number(b.dataset.d); var nd = new Date(yy, mm, 1); ui.month = nd.getFullYear() + "-" + pad(nd.getMonth() + 1); render(); break; }
       case "day": { var nk = addDays(k, Number(b.dataset.d)); if (nk <= todayKey()) { ui.date = nk; render(); } break; }
       case "gotoday": ui.date = todayKey(); render(); break;
       case "openday": ui.date = b.dataset.date; go("today"); break;
