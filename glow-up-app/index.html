@@ -568,8 +568,9 @@ details.notes[open] { display: grid; gap: 14px; }
   function itemsFor(k) {
     var s = S.settings, type = getType(k), off = type === "off", L = [];
     var lt = (Math.round(s.waterGoal * 25) / 100) + "L";
+    L.push({ id: "light", sec: "am", e: "🔆", tone: "t-yellow", label: "Light lamp, 20 to 30 min", sub: "Within an hour of waking, 40 to 60cm away, eyes open but not staring into it", pts: 10 });
     L.push({ id: "medsAM", sec: "am", e: "💊", tone: "t-violet", label: "Morning meds", kind: "meds", meds: s.meds.am, pts: 10, must: true });
-    L.push({ id: "wake", sec: "am", e: "☀️", tone: "t-yellow", label: "Wake up early", sub: "Out of bed, curtains open, no snoozing", pts: 10 });
+    L.push({ id: "wake", sec: "am", e: "⏰", tone: "t-orange", label: "Wake up early", sub: "Out of bed, curtains open, no snoozing", pts: 10 });
     L.push({ id: "water", sec: "am", e: "💧", tone: "t-cyan", label: lt + " of water", kind: "water", pts: 10 });
     if (type === "rest") L.push({ id: "stretch", sec: "am", e: "🧘", tone: "t-violet", label: "Gentle stretch", sub: "10 minutes", pts: 10, optional: true });
     var fi = fitInfo(k), F = FIT[fi.lvl], top = fi.lvl >= FIT.length - 1;
@@ -890,7 +891,7 @@ details.notes[open] { display: grid; gap: 14px; }
       h += "</ul>";
     }
     h += '<details class="earnbox"><summary>⚡ How you earn sparks</summary><ul class="earn">';
-    [["🚶‍♀️ Outside walk", 40], ["🛋️ Walk on a day off", 60], ["🔁 Extra walk", 20], ["💊 Evening meds", 20], ["💊 Morning meds", 10], ["💃 Cardio", 20], ["🦵 Squats", 15], ["📖 Read", 15], ["📵 Detox", 15], ["☀️ Wake early", 10], ["💧 Water", 10], ["🧽 Tidy", 10], ["😴 Early night", 10], ["🌟 Perfect day", 50], ["🔥 7-day streak", 100], ["🪜 New step", 100], ["💪 Fitness level up", 50]].forEach(function (e) {
+    [["🚶‍♀️ Outside walk", 40], ["🛋️ Walk on a day off", 60], ["🔁 Extra walk", 20], ["💊 Evening meds", 20], ["💊 Morning meds", 10], ["💃 Cardio", 20], ["🦵 Squats", 15], ["📖 Read", 15], ["📵 Detox", 15], ["🔆 Light lamp", 10], ["⏰ Wake early", 10], ["💧 Water", 10], ["🧽 Tidy", 10], ["😴 Early night", 10], ["🌟 Perfect day", 50], ["🔥 7-day streak", 100], ["🪜 New step", 100], ["💪 Fitness level up", 50]].forEach(function (e) {
       h += "<li><span>" + e[0] + "</span><b>+" + e[1] + "</b></li>";
     });
     h += "</ul></details></section>";
