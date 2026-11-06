@@ -451,7 +451,7 @@ details.notes[open] { display: grid; gap: 14px; }
     step: 0, stepChosen: true, snooze: null,
     ladder: LADDER_DEFAULT.slice(), prior: PRIOR_DEFAULT.slice(),
     meds: clone(MEDS_DEFAULT), rewards: clone(REWARDS_DEFAULT), claims: [], stepUps: [], fitAdj: 0,
-    items: clone(DEF_ITEMS), stepsGoal: 10000, couple: null, program: "squats"
+    items: clone(DEF_ITEMS), stepsGoal: 10000, couple: null, program: "squats", custom: []
   };
   var TYPES = {
     train: { e: "🏋️", name: "Training day", tone: "t-pink", desc: "Everything counts." },
@@ -524,6 +524,7 @@ details.notes[open] { display: grid; gap: 14px; }
       HABIT_KEYS.forEach(function (k) { s.items[k] = false; });
     }
     if (s.program !== "strength") s.program = "squats";
+    if (!Array.isArray(s.custom)) s.custom = [];
     s.stepsGoal = clamp(Number(s.stepsGoal) || 10000, 1000, 50000);
     return s;
   }
@@ -675,6 +676,8 @@ details.notes[open] { display: grid; gap: 14px; }
     L.push({ id: "detox", sec: "pm", e: "📵", tone: "t-pink", label: "Digital detox", sub: "Phone away, evening prayer or reading", pts: 15 });
     L.push({ id: "sleep", sec: "pm", e: "😴", tone: "t-violet", label: "Early night", sub: "In bed early, no scrolling", pts: 10 });
     L = L.filter(function (i) { return s.items[i.grp || i.id] !== false; });
+    var tones = ["t-pink", "t-violet", "t-cyan", "t-lime", "t-orange", "t-yellow"];
+    s.custom.forEach(function (c, ci) { L.push({ id: c.id, sec: c.sec || "day", e: c.e || "✨", tone: tones[ci % tones.length], label: c.label, sub: "Your own habit", pts: 10 }); });
     if (off) L.forEach(function (i) { if (!i.must) i.optional = true; });
     return L;
   }
@@ -1114,7 +1117,7 @@ details.notes[open] { display: grid; gap: 14px; }
       h += "</ul>";
     }
     h += '<details class="earnbox"><summary>⚡ How you earn sparks</summary><ul class="earn">';
-    [["🚶‍♀️ Outside walk", 40], ["🛋️ Walk on a day off", 60], ["🔁 Extra walk", 20], ["💊 Evening meds", 20], ["💊 Morning meds", 10], ["💃 Cardio", 20], ["🦵 Squats", 15], ["📖 Read", 15], ["📵 Detox", 15], ["🔆 Light lamp", 10], ["⏰ Wake early", 10], ["💧 Water", 10], ["🧽 Tidy", 10], ["😴 Early night", 10], ["🌟 Perfect day", 50], ["🔥 7-day streak", 100], ["🪜 New step", 100], ["💪 Fitness level up", 50]].forEach(function (e) {
+    [["🚶‍♀️ Outside walk", 40], ["🛋️ Walk on a day off", 60], ["🔁 Extra walk", 20], ["💊 Evening meds", 20], ["💊 Morning meds", 10], ["💃 Cardio", 20], ["🦵 Squats", 15], ["📖 Read", 15], ["📵 Detox", 15], ["🔆 Light lamp", 10], ["⏰ Wake early", 10], ["💧 Water", 10], ["🧽 Tidy", 10], ["😴 Early night", 10], ["🌟 Perfect day", 50], ["🔥 7-day streak", 100], ["🪜 New step", 100], ["💪 Fitness level up", 50], ["✨ Your own habit", 10]].forEach(function (e) {
       h += "<li><span>" + e[0] + "</span><b>+" + e[1] + "</b></li>";
     });
     h += "</ul></details></section>";
@@ -1139,6 +1142,16 @@ details.notes[open] { display: grid; gap: 14px; }
     h += '<section class="sec"><h2>📋 Your list</h2><p class="faint">Tap to switch things on or off.</p><div class="toggles">';
     ITEM_LABELS.forEach(function (x) { h += '<button data-act="itemtoggle" data-k="' + x[0] + '" id="it-' + x[0] + '" aria-pressed="' + (s.items[x[0]] !== false) + '">' + x[1] + "</button>"; });
     h += "</div></section>";
+
+    h += '<section class="sec"><h2>➕ Your own habits</h2><p class="faint">Add anything you want to tick off each day. Each one is worth +10 ⚡.</p>';
+    if (s.custom.length) {
+      h += '<ul class="rows">';
+      s.custom.forEach(function (c, ci) { h += '<li><span>' + esc((c.e || "✨") + " " + c.label) + ' <span class="faint">· ' + ({ am: "Morning", day: "Daytime", pm: "Evening" }[c.sec] || "Daytime") + '</span></span><button class="x" data-act="cdel" data-i="' + ci + '" id="cdel-' + ci + '" aria-label="Remove ' + esc(c.label) + '">×</button></li>'; });
+      h += "</ul>";
+    }
+    h += '<div class="redit" style="grid-template-columns:52px 1fr"><input class="inp" style="text-align:center;font-size:20px" maxlength="8" id="c-emoji" value="✨" aria-label="Emoji"><input class="inp" id="c-name" maxlength="50" placeholder="e.g. Stretch my back, Call mum, No takeaway" aria-label="Habit name"></div>';
+    h += '<div class="toggles" role="group" aria-label="When">' + [["am", "🌅 Morning"], ["day", "🌤️ Daytime"], ["pm", "🌙 Evening"]].map(function (x) { return '<button data-act="csec" data-s="' + x[0] + '" id="csec-' + x[0] + '" aria-pressed="' + ((ui.csec || "day") === x[0]) + '">' + x[1] + "</button>"; }).join("") + "</div>";
+    h += '<div><button class="btn go sm" data-act="cadd" id="c-add">Add habit</button></div></section>';
 
     h += '<section class="sec"><h2>💊 Meds</h2><div class="medrow"><span class="faint">Morning, as soon as you wake up</span>';
     s.meds.am.forEach(function (m, i) { h += '<input class="inp" id="ma-' + i + '" data-set="med" data-g="am" data-i="' + i + '" value="' + esc(m.name) + '" aria-label="Morning med ' + (i + 1) + '">'; });
@@ -1521,6 +1534,15 @@ details.notes[open] { display: grid; gap: 14px; }
       case "outsheet": openOutside(k); break;
       case "stepsheet": openSteps(k); break;
       case "worktoggle": { be = dayEarn(k); bp = isPerfect(k); d = dayDoc(k); d.work = !isWorkday(k); if (d.type === "work") d.type = "train"; touch(k); render(); toast(d.work ? "💼 Steps count today instead of the workout" : "💪 Workout is back on for today"); afterChange(k, be, bp, e); break; }
+      case "csec": ui.csec = b.dataset.s; document.querySelectorAll("[data-act=csec]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); break;
+      case "cadd": {
+        var cn = ($("#c-name").value || "").trim(), ce = ($("#c-emoji").value || "").trim() || "✨";
+        if (!cn) { toast("Type a name for your habit first"); break; }
+        s.custom.push({ id: "c_" + uid(), e: ce.slice(0, 8), label: cn.slice(0, 50), sec: ui.csec || "day" });
+        persist("settings"); render(); toast("✨ Added to your " + ({ am: "morning", day: "daytime", pm: "evening" }[ui.csec || "day"]) + " list");
+        break;
+      }
+      case "cdel": { var gone2 = s.custom.splice(Number(b.dataset.i), 1)[0]; persist("settings"); render(); if (gone2) toast("Removed " + gone2.label); break; }
       case "program": s.program = b.dataset.p === "strength" ? "strength" : "squats"; persist("settings"); render(); toast(s.program === "strength" ? "🧱 Strength plan on" : "🦵 Squats + cardio plan on"); break;
       case "itemtoggle": s.items[b.dataset.k] = s.items[b.dataset.k] === false; persist("settings"); render(); break;
       case "copytext": { var txt = b.dataset.text; try { navigator.clipboard.writeText(txt).then(function () { toast("Copied"); }, function () { toast("Press and hold the text to copy it"); }); } catch (er) { toast("Press and hold the text to copy it"); } break; }
