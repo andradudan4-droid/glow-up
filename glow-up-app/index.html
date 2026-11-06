@@ -466,8 +466,8 @@ details.notes[open] { display: grid; gap: 14px; }
   var CHECK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.4l2.9 2.9L12.5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var LS_KEY = "victoria-tracker-v1";
   var LS_TIMER = "victoria-timer-v1";
-  var SUPA_URL = "";
-  var SUPA_KEY = "";
+  var SUPA_URL = "https://xyrxveqhdvzputanoxuv.supabase.co";
+  var SUPA_KEY = "sb_publishable_kcBsbnFqFRe5jjWcW5xETQ_BC9iJ9L6";
   var STANDALONE = true;
   var SHORTCUT_NAME = "Glow Up Steps";
   var EMOTES = ["🔥", "💪", "😘", "👏", "😂", "🫶", "😈", "👀", "🐢", "👑"];
@@ -759,7 +759,9 @@ details.notes[open] { display: grid; gap: 14px; }
   function nameOf(p) { return p === me() ? myName() : partnerName(); }
   function prizeOf(p) { if (p === me()) return (S.settings.couple && S.settings.couple.prize) || ""; var pl = C.players[p]; return (pl && pl.prize) || ""; }
   function rpc(fn, body) {
-    return fetch(SUPA_URL + "/rest/v1/rpc/" + fn, { method: "POST", headers: { apikey: SUPA_KEY, Authorization: "Bearer " + SUPA_KEY, "Content-Type": "application/json" }, body: JSON.stringify(body) })
+    var hd = { apikey: SUPA_KEY, "Content-Type": "application/json" };
+    if (SUPA_KEY.indexOf("sb_") !== 0) hd.Authorization = "Bearer " + SUPA_KEY;
+    return fetch(SUPA_URL + "/rest/v1/rpc/" + fn, { method: "POST", headers: hd, body: JSON.stringify(body) })
       .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
       .then(function (t) { return t ? JSON.parse(t) : null; });
   }
@@ -1148,7 +1150,8 @@ details.notes[open] { display: grid; gap: 14px; }
       h += "<li>Add <b>Calculate Statistics</b>: <b>Sum</b> of Health Samples.</li>";
       h += "<li>Add <b>Format Date</b>: Current Date, Date Format <b>Custom</b>, format <code>yyyy-MM-dd</code>.</li>";
       h += '<li>Add <b>Get Contents of URL</b> with this URL <button class="cp" data-act="copytext" data-text="' + esc(url) + '">copy</button><br><code>' + esc(url) + "</code></li>";
-      h += '<li>Tap Show More. Method <b>POST</b>. Add 2 headers: <code>apikey</code> = the key <button class="cp" data-act="copytext" data-text="' + esc(SUPA_KEY) + '">copy</button> and <code>Authorization</code> = <code>Bearer</code> + space + the same key <button class="cp" data-act="copytext" data-text="' + esc("Bearer " + SUPA_KEY) + '">copy</button></li>';
+      if (SUPA_KEY.indexOf("sb_") === 0) h += '<li>Tap Show More. Method <b>POST</b>. Add 1 header: <code>apikey</code> = the key <button class="cp" data-act="copytext" data-text="' + esc(SUPA_KEY) + '">copy</button></li>';
+      else h += '<li>Tap Show More. Method <b>POST</b>. Add 2 headers: <code>apikey</code> = the key <button class="cp" data-act="copytext" data-text="' + esc(SUPA_KEY) + '">copy</button> and <code>Authorization</code> = <code>Bearer</code> + space + the same key <button class="cp" data-act="copytext" data-text="' + esc("Bearer " + SUPA_KEY) + '">copy</button></li>';
       h += "<li>Request Body <b>JSON</b>, 4 fields: <code>p_code</code> Text <code>" + esc(cp.code) + '</code> <button class="cp" data-act="copytext" data-text="' + esc(cp.code) + '">copy</button>, <code>p_player</code> Text <code>' + me() + "</code>, <code>p_day</code> Text = Formatted Date, <code>p_steps</code> Number = Statistics.</li>";
       h += "<li>Tap ▶ to test. Your steps should show on Today within a minute.</li>";
       h += "<li>Then <b>Automation</b> tab → <b>+</b> → <b>Time of Day</b>, 9pm, Daily, <b>Run Immediately</b> → run <b>" + SHORTCUT_NAME + "</b>.</li>";
