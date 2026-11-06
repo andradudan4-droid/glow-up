@@ -284,7 +284,7 @@ details.earnbox[open] { display: grid; gap: 8px; }
 
 .tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: rgba(255,255,255,.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line);
   padding-bottom: env(safe-area-inset-bottom, 0px); padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
-.tabs .in { max-width: 480px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+.tabs .in { max-width: 480px; margin: 0 auto; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; }
 .tabs button { position: relative; display: grid; justify-items: center; gap: 2px; padding: 9px 0 8px; font-size: 12px; font-weight: 800; color: var(--ink-3); }
 .tabs .e { font-size: 21px; line-height: 1.1; filter: grayscale(1); opacity: .55; transition: filter .15s, transform .15s; }
 .tabs button[aria-current="page"] { color: var(--ink); }
@@ -329,6 +329,56 @@ details.notes[open] { display: grid; gap: 14px; }
 .lastnext { font-size: 14.5px; color: var(--ink-2); }
 .lastnext i { color: var(--ink); }
 
+.vs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
+.vside { display: grid; justify-items: center; gap: 6px; text-align: center; min-width: 0; }
+.vside b { font-size: 15px; font-weight: 800; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vside .crown { font-size: 20px; height: 24px; line-height: 24px; }
+.vring { width: 96px; height: 96px; position: relative; }
+.vring svg { width: 96px; height: 96px; transform: rotate(-90deg); }
+.vring .tr { fill: none; stroke: rgba(255,255,255,.28); stroke-width: 9; }
+.vring .pr { fill: none; stroke: #fff; stroke-width: 9; stroke-linecap: round; transition: stroke-dashoffset .5s ease; }
+.vring .c { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 20px; }
+.vmid { font-family: var(--display); font-weight: 800; font-size: 18px; text-align: center; }
+.vmid small { display: block; font-family: var(--body); font-size: 11.5px; font-weight: 600; opacity: .9; }
+.vline { font-size: 15px; font-weight: 800; text-align: center; }
+.prizes { display: grid; gap: 4px; font-size: 13.5px; font-weight: 600; background: rgba(255,255,255,.18); border-radius: 14px; padding: 10px 12px; }
+.emotes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.emo { aspect-ratio: 1; max-width: 100%; border-radius: 16px; background: var(--soft); font-size: 26px; display: grid; place-items: center; transition: transform .12s; }
+.emo:active { transform: scale(1.25); }
+.feed { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.feed li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); }
+.feed .fe { font-size: 22px; }
+.feed b { color: var(--ink); }
+.wk2 { display: grid; grid-template-columns: 62px repeat(7, minmax(0, 1fr)); gap: 6px 5px; align-items: center; }
+.wk2 .nmc { font-size: 12.5px; font-weight: 800; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wk2 .hd { font-size: 11px; font-weight: 800; color: var(--ink-3); text-align: center; }
+.mr { position: relative; display: block; width: 100%; aspect-ratio: 1; }
+.mr svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mr .trk { fill: none; stroke: #ECEAF3; stroke-width: 4; }
+.mr .arc { fill: none; stroke: var(--pink); stroke-width: 4; stroke-linecap: round; }
+.mr.p2 .arc { stroke: var(--violet); }
+.mr.full .trk { fill: #FFE6F2; }
+.mr.p2.full .trk { fill: #EEE7FF; }
+.mr.off .trk { stroke: var(--cyan); stroke-dasharray: 2.5 3; }
+.mr.fut .trk { stroke: #F4F3F8; }
+.lastwk { display: grid; gap: 10px; padding: 16px; border-radius: 20px; background: #FFF8E1; box-shadow: inset 0 0 0 2px var(--yellow); font-size: 15px; font-weight: 600; }
+.bigmote { position: fixed; z-index: 85; left: 50%; top: 45%; font-size: 90px; transform: translate(-50%, -50%); pointer-events: none; animation: pop 1.5s ease-out forwards; }
+@keyframes pop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.3); } 25% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); } 70% { opacity: 1; transform: translate(-50%, -60%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -95%) scale(.9); } }
+.codebox { font-family: ui-monospace, Menlo, monospace; font-size: 21px; font-weight: 700; letter-spacing: .08em; text-align: center; padding: 14px; border-radius: 16px; background: var(--soft); user-select: all; -webkit-user-select: all; }
+.toggles { display: flex; flex-wrap: wrap; gap: 8px; }
+.toggles button { min-height: 38px; padding: 0 12px; border-radius: 99px; background: var(--soft); font-weight: 700; font-size: 14px; color: var(--ink-3); }
+.toggles button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.chk { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; }
+.chk input { width: 20px; height: 20px; accent-color: var(--pink); margin-top: 2px; flex: none; }
+.wd.work { background: #FFF1E2; color: #A2510B; }
+.stepsbig { font-family: var(--display); font-size: 36px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.guide { font-size: 14px; color: var(--ink-2); display: grid; gap: 8px; }
+.guide summary { cursor: pointer; font-weight: 800; color: var(--violet); list-style: none; }
+.guide summary::-webkit-details-marker { display: none; }
+.guide ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+.guide code { font-family: ui-monospace, Menlo, monospace; font-size: 12px; background: var(--soft); padding: 2px 6px; border-radius: 6px; word-break: break-all; }
+.guide .cp { font-weight: 800; color: var(--pink-deep); font-size: 13px; margin-left: 4px; }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
 </style>
 </head>
@@ -345,6 +395,7 @@ details.notes[open] { display: grid; gap: 14px; }
     <button data-act="tab" data-tab="today" id="tab-today"><span class="e" aria-hidden="true">✅</span>Today</button>
     <button data-act="tab" data-tab="outside" id="tab-outside"><span class="e" aria-hidden="true">🚶‍♀️</span>Outside</button>
     <button data-act="tab" data-tab="progress" id="tab-progress"><span class="e" aria-hidden="true">📈</span>Progress</button>
+    <button data-act="tab" data-tab="us" id="tab-us"><span class="e" aria-hidden="true">💞</span>Us</button>
     <button data-act="tab" data-tab="plan" id="tab-plan"><span class="e" aria-hidden="true">⚙️</span>Plan</button>
   </div>
 </nav>
@@ -381,17 +432,20 @@ details.notes[open] { display: grid; gap: 14px; }
     { id: "r5", emoji: "🛍️", name: "Shopping day", cost: 6000 }
   ];
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  var DEF_ITEMS = { light: true, medsAM: true, wake: true, water: true, workout: true, outside: true, tidy: true, medsPM: true, read: true, detox: true, sleep: true };
   var DEFAULTS = {
     v: 2, start: null, epoch: 0,
     week: WEEK_DEFAULT.slice(), flexPerWeek: 1, squats: 40, waterGoal: 4,
     step: 0, stepChosen: true, snooze: null,
     ladder: LADDER_DEFAULT.slice(), prior: PRIOR_DEFAULT.slice(),
-    meds: clone(MEDS_DEFAULT), rewards: clone(REWARDS_DEFAULT), claims: [], stepUps: [], fitAdj: 0
+    meds: clone(MEDS_DEFAULT), rewards: clone(REWARDS_DEFAULT), claims: [], stepUps: [], fitAdj: 0,
+    items: clone(DEF_ITEMS), stepsGoal: 10000, couple: null
   };
   var TYPES = {
     train: { e: "🏋️", name: "Training day", tone: "t-pink", desc: "Everything counts." },
     rest: { e: "🧘", name: "Rest day", tone: "t-violet", desc: "No squats or cardio. Meds, your walk and habits still count." },
-    off: { e: "🛋️", name: "Day off", tone: "t-cyan", desc: "Only meds count. Anything else you do is bonus sparks." }
+    off: { e: "🛋️", name: "Day off", tone: "t-cyan", desc: "Only meds count. Anything else you do is bonus sparks." },
+    work: { e: "💼", name: "Work day", tone: "t-orange", desc: "Your steps at work count instead of squats and cardio." }
   };
   var WITH = { alone: "Alone", call: "On a call", someone: "With someone", dogs: "With the dogs" };
   var WD_ORDER = [1, 2, 3, 4, 5, 6, 0];
@@ -412,6 +466,12 @@ details.notes[open] { display: grid; gap: 14px; }
   var CHECK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.4l2.9 2.9L12.5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var LS_KEY = "victoria-tracker-v1";
   var LS_TIMER = "victoria-timer-v1";
+  var SUPA_URL = "";
+  var SUPA_KEY = "";
+  var STANDALONE = true;
+  var SHORTCUT_NAME = "Glow Up Steps";
+  var EMOTES = ["🔥", "💪", "😘", "👏", "😂", "🫶", "😈", "👀", "🐢", "👑"];
+  var ITEM_LABELS = [["light", "🔆 Light lamp"], ["medsAM", "💊 Morning meds"], ["wake", "⏰ Wake early"], ["water", "💧 Water"], ["workout", "💪 Workout or steps"], ["outside", "🚶‍♀️ Outside walk"], ["tidy", "🧽 Tidy"], ["medsPM", "💊 Evening meds"], ["read", "📖 Read"], ["detox", "📵 Detox"], ["sleep", "😴 Early night"]];
 
   /* ---------- helpers ---------- */
   function $(s) { return document.querySelector(s); }
@@ -445,12 +505,14 @@ details.notes[open] { display: grid; gap: 14px; }
     if (!Array.isArray(s.rewards)) s.rewards = clone(REWARDS_DEFAULT);
     if (!Array.isArray(s.claims)) s.claims = [];
     if (!Array.isArray(s.stepUps)) s.stepUps = [];
+    s.items = Object.assign(clone(DEF_ITEMS), s.items || {});
+    s.stepsGoal = clamp(Number(s.stepsGoal) || 10000, 1000, 50000);
     return s;
   }
 
   /* ---------- state ---------- */
   var S = { settings: mergeSettings(null), days: {} };
-  var ui = { month: null, tab: "today", date: todayKey(), selStep: null, confirmReset: false, confirmFresh: false, claim: null, editRewards: false, offAsk: false, bkShow: false, bkIn: false, bkCode: "" };
+  var ui = { confirmLeave: false, joinPick: null, month: null, tab: "today", date: todayKey(), selStep: null, confirmReset: false, confirmFresh: false, claim: null, editRewards: false, offAsk: false, bkShow: false, bkIn: false, bkCode: "" };
   var timer = null;
   var lastToday = todayKey(), lastMin = -1;
 
@@ -463,6 +525,7 @@ details.notes[open] { display: grid; gap: 14px; }
   function persist(key) {
     fitCache = {};
     lsWrite(LS_KEY, S);
+    schedulePush();
     if (mode !== "db") return;
     pending[key] = true;
     clearTimeout(flushTimer);
@@ -551,7 +614,7 @@ details.notes[open] { display: grid; gap: 14px; }
   function getType(k) { var d = day(k); return (d && d.type) || plannedType(k); }
   function squatDays(ws) {
     var n = 0;
-    for (var i = 0; i < 7; i++) { var dk = addDays(ws, i), d = day(dk); if (dk >= effStart() && d && d.done && d.done.squats) n++; }
+    for (var i = 0; i < 7; i++) { var dk = addDays(ws, i), d = day(dk); if (dk >= effStart() && ((d && d.done && d.done.squats) || (plannedOrSet(dk) === "work" && stepsOf(dk) >= S.settings.stepsGoal))) n++; }
     return n;
   }
   var fitCache = {};
@@ -566,23 +629,25 @@ details.notes[open] { display: grid; gap: 14px; }
   function medNames(list) { return list.map(function (m) { return m.name; }).join(" + "); }
 
   function itemsFor(k) {
-    var s = S.settings, type = getType(k), off = type === "off", L = [];
+    var s = S.settings, type = getType(k), off = type === "off", work = type === "work", L = [];
     var lt = (Math.round(s.waterGoal * 25) / 100) + "L";
     L.push({ id: "light", sec: "am", e: "🔆", tone: "t-yellow", label: "Light lamp, 20 to 30 min", sub: "Within an hour of waking, 40 to 60cm away, eyes open but not staring into it", pts: 10 });
     L.push({ id: "medsAM", sec: "am", e: "💊", tone: "t-violet", label: "Morning meds", kind: "meds", meds: s.meds.am, pts: 10, must: true });
     L.push({ id: "wake", sec: "am", e: "⏰", tone: "t-orange", label: "Wake up early", sub: "Out of bed, curtains open, no snoozing", pts: 10 });
     L.push({ id: "water", sec: "am", e: "💧", tone: "t-cyan", label: lt + " of water", kind: "water", pts: 10 });
-    if (type === "rest") L.push({ id: "stretch", sec: "am", e: "🧘", tone: "t-violet", label: "Gentle stretch", sub: "10 minutes", pts: 10, optional: true });
+    if (type === "rest") L.push({ id: "stretch", grp: "workout", sec: "am", e: "🧘", tone: "t-violet", label: "Gentle stretch", sub: "10 minutes", pts: 10, optional: true });
     var fi = fitInfo(k), F = FIT[fi.lvl], top = fi.lvl >= FIT.length - 1;
     var fsub = "Level " + (fi.lvl + 1) + " · " + (top ? "top level, keep it going" : fi.done >= 3 ? "level up locked in for next week 🎉" : fi.done + " of 3 workouts this week to level up");
-    if (type !== "rest") L.push({ id: "squats", sec: "am", e: "🦵", tone: "t-pink", label: "Squats: " + F.sq + F.x, sub: fsub, pts: 15 });
+    if (type !== "rest" && !work) L.push({ id: "squats", grp: "workout", sec: "am", e: "🦵", tone: "t-pink", label: "Squats: " + F.sq + F.x, sub: fsub, pts: 15 });
     L.push({ id: "outside", sec: "day", e: "🚶‍♀️", tone: "t-lime", label: "Outside walk", sub: "Step " + (s.step + 1) + ": " + s.ladder[s.step], kind: "outside", pts: off ? 60 : 40 });
-    if (type !== "rest") L.push({ id: "cardio", sec: "day", e: "💃", tone: "t-orange", label: "Cardio: " + F.ca, sub: F.tip, pts: 20 });
+    if (work) L.push({ id: "steps", grp: "workout", sec: "day", e: "👣", tone: "t-lime", label: fmtNum(s.stepsGoal) + " steps", sub: stepsSub(k), kind: "steps", pts: 35 });
+    else if (type !== "rest") L.push({ id: "cardio", grp: "workout", sec: "day", e: "💃", tone: "t-orange", label: "Cardio: " + F.ca, sub: F.tip, pts: 20 });
     L.push({ id: "tidy", sec: "day", e: "🧽", tone: "t-cyan", label: "Tidy up and wash the dishes", sub: "Sink empty, one surface cleared", pts: 10 });
     L.push({ id: "medsPM", sec: "pm", e: "💊", tone: "t-violet", label: fmtTime(s.meds.pmTime) + " meds", kind: "meds", meds: s.meds.pm, pts: 20, must: true });
     L.push({ id: "read", sec: "pm", e: "📖", tone: "t-orange", label: "Read 30 pages", sub: "A real book, not your phone", pts: 15 });
     L.push({ id: "detox", sec: "pm", e: "📵", tone: "t-pink", label: "Digital detox", sub: "Phone away, evening prayer or reading", pts: 15 });
     L.push({ id: "sleep", sec: "pm", e: "😴", tone: "t-violet", label: "Early night", sub: "In bed early, no scrolling", pts: 10 });
+    L = L.filter(function (i) { return s.items[i.grp || i.id] !== false; });
     if (off) L.forEach(function (i) { if (!i.must) i.optional = true; });
     return L;
   }
@@ -591,6 +656,7 @@ details.notes[open] { display: grid; gap: 14px; }
     var d = day(k) || {}, dn = d.done || {};
     if (it.kind === "water") return (d.water || 0) >= S.settings.waterGoal;
     if (it.kind === "outside") return (d.walks || []).length > 0;
+    if (it.kind === "steps") return stepsOf(k) >= S.settings.stepsGoal;
     if (it.kind === "meds") return it.meds.length > 0 && it.meds.every(function (m) { return dn[medKey(m.id)]; });
     return !!dn[it.id];
   }
@@ -666,10 +732,129 @@ details.notes[open] { display: grid; gap: 14px; }
     if (k !== todayKey()) return false;
     var p = S.settings.meds.pmTime.split(":"), now = new Date();
     var due = now.getHours() * 60 + now.getMinutes() >= (Number(p[0]) || 0) * 60 + (Number(p[1]) || 0);
-    return due && !isDone(k, pmItem(k));
+    var it = pmItem(k);
+    return due && !!it && !isDone(k, it);
   }
   function rewardsSorted() { return S.settings.rewards.slice().sort(function (a, b) { return a.cost - b.cost; }); }
   function canClaimAny(bal) { return S.settings.rewards.some(function (r) { return r.cost <= bal; }); }
+
+  /* ---------- steps + couple ---------- */
+  function fmtNum(n) { return Number(n || 0).toLocaleString("en-GB"); }
+  function plannedOrSet(k) { return getType(k); }
+  function stepsOf(k) {
+    var d = day(k), local = d && d.steps ? Number(d.steps) || 0 : 0;
+    var remote = coupleOn() && C.steps[me()] ? Number(C.steps[me()][k] || 0) : 0;
+    return Math.max(local, remote);
+  }
+  function stepsSub(k) {
+    var n = stepsOf(k);
+    return n ? fmtNum(n) + " so far · tap to update" : "Tap to add today's steps from your Health app";
+  }
+  var C = { players: {}, days: { a: {}, b: {} }, steps: { a: {}, b: {} }, emotes: [], paid: {}, since: null, ok: false, err: null, loading: false, sig: "" };
+  function coupleOn() { return !!(SUPA_URL && S.settings.couple && S.settings.couple.code); }
+  function me() { return S.settings.couple && S.settings.couple.me === "b" ? "b" : "a"; }
+  function them() { return me() === "a" ? "b" : "a"; }
+  function myName() { return (S.settings.couple && S.settings.couple.name) || "You"; }
+  function partnerName() { var p = C.players[them()]; return (p && p.name) || "Your partner"; }
+  function nameOf(p) { return p === me() ? myName() : partnerName(); }
+  function prizeOf(p) { if (p === me()) return (S.settings.couple && S.settings.couple.prize) || ""; var pl = C.players[p]; return (pl && pl.prize) || ""; }
+  function rpc(fn, body) {
+    return fetch(SUPA_URL + "/rest/v1/rpc/" + fn, { method: "POST", headers: { apikey: SUPA_KEY, Authorization: "Bearer " + SUPA_KEY, "Content-Type": "application/json" }, body: JSON.stringify(body) })
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+      .then(function (t) { return t ? JSON.parse(t) : null; });
+  }
+  function makeCoupleCode() {
+    var a = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", out = "", buf = new Uint32Array(12);
+    crypto.getRandomValues(buf);
+    for (var i = 0; i < 12; i++) { out += a[buf[i] % a.length]; if (i === 3 || i === 7) out += "-"; }
+    return out;
+  }
+  var pushT = null;
+  function schedulePush() { if (!coupleOn()) return; clearTimeout(pushT); pushT = setTimeout(pushCouple, 1500); }
+  function pushCouple() {
+    if (!coupleOn()) return Promise.resolve();
+    var s = S.settings, t = todayKey(), rows = [];
+    for (var k = addDays(weekStart(t), -7); k <= t; k = addDays(k, 1)) {
+      if (k < effStart()) continue;
+      var sc = score(k);
+      rows.push({ day: k, done: sc.done, total: sc.total, pct: Math.round(sc.pct * 1000) / 1000, sparks: dayEarn(k), type: getType(k) });
+    }
+    return rpc("glow_push", { p_code: s.couple.code, p_player: me(), p_name: myName(), p_prize: s.couple.prize || "", p_week: s.week, p_days: rows })
+      .then(function (ok) { if (ok === false) C.err = "That couple code isn't recognised any more."; })
+      .catch(function () { C.err = "Couldn't reach the couple server. Check your signal."; });
+  }
+  function pullCouple() {
+    if (!coupleOn() || C.loading) return Promise.resolve();
+    C.loading = true;
+    return rpc("glow_pull", { p_code: S.settings.couple.code, p_since: addDays(weekStart(todayKey()), -21) }).then(function (res) {
+      C.loading = false;
+      if (!res) { C.ok = false; C.err = "That couple code wasn't found. Check it, or leave and join again."; if (ui.tab === "us") render(); return; }
+      var sig = JSON.stringify(res, function (k, v) { return k === "updated_at" ? undefined : v; });
+      var oldMySteps = JSON.stringify(C.steps[me()] || {});
+      C.ok = true; C.err = null; C.since = res.since ? String(res.since).slice(0, 10) : null;
+      var P = {}; (res.players || []).forEach(function (x) { P[x.player] = x; }); C.players = P;
+      var D = { a: {}, b: {} }; (res.days || []).forEach(function (x) { if (D[x.player]) D[x.player][String(x.day).slice(0, 10)] = x; }); C.days = D;
+      var ST = { a: {}, b: {} }; (res.steps || []).forEach(function (x) { if (ST[x.player]) ST[x.player][String(x.day).slice(0, 10)] = x.steps; }); C.steps = ST;
+      C.emotes = res.emotes || [];
+      var PD = {}; (res.paid || []).forEach(function (x) { PD[String(x.week).slice(0, 10)] = !!x.paid; }); C.paid = PD;
+      if (JSON.stringify(C.steps[me()] || {}) !== oldMySteps) schedulePush();
+      var cp = S.settings.couple, seen = cp.seen, maxId = 0;
+      C.emotes.forEach(function (x) { if (x.id > maxId) maxId = x.id; });
+      var fresh = C.emotes.filter(function (x) { return x.player === them() && x.id > (seen || 0); });
+      if (seen == null || maxId > seen) {
+        if (seen != null && fresh.length) { toast(partnerName() + " sent you " + fresh[0].emoji); burst(fresh[0].emoji); }
+        cp.seen = maxId; lsWrite(LS_KEY, S);
+      }
+      var busy = !$("#sheet").hidden || (document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName));
+      if (sig !== C.sig && !busy) { C.sig = sig; render(); } else if (!busy) C.sig = sig;
+    }).catch(function () { C.loading = false; C.err = "Couldn't reach the couple server. Check your signal."; if (ui.tab === "us") render(); });
+  }
+  function burst(emoji) {
+    if (reduced) return;
+    var f = document.createElement("div"); f.className = "bigmote"; f.textContent = emoji; document.body.appendChild(f);
+    setTimeout(function () { f.remove(); }, 1600);
+  }
+  function ago(ts) {
+    var s = Math.max(0, (Date.now() - new Date(ts).getTime()) / 1000);
+    if (s < 60) return "just now";
+    if (s < 3600) return Math.floor(s / 60) + " min ago";
+    if (s < 86400) return Math.floor(s / 3600) + " h ago";
+    return Math.floor(s / 86400) + " d ago";
+  }
+  function rowFor(player, k) {
+    if (player === me()) {
+      if (k < effStart() || k > todayKey()) return null;
+      var sc = score(k);
+      return { pct: sc.pct, type: getType(k), sparks: dayEarn(k), done: sc.done, total: sc.total };
+    }
+    return (C.days[player] && C.days[player][k]) || null;
+  }
+  function weekStats(player, ws) {
+    var t = todayKey(), n = 0, sum = 0, perfect = 0, sparks = 0, start = C.since || ws;
+    for (var i = 0; i < 7; i++) {
+      var k = addDays(ws, i);
+      if (k > t) break;
+      if (k < start) continue;
+      var row = rowFor(player, k);
+      if (row && row.type === "off") continue;
+      if (k === t && !row) continue;
+      var pct = row ? Number(row.pct) || 0 : 0;
+      n++; sum += pct; if (pct >= 1) perfect++; sparks += row ? Number(row.sparks) || 0 : 0;
+    }
+    return { avg: n ? sum / n : 0, n: n, perfect: perfect, sparks: sparks };
+  }
+  function weekWinner(ws) {
+    var A = weekStats("a", ws), B = weekStats("b", ws);
+    if (!A.n && !B.n) return null;
+    var d = A.avg - B.avg;
+    if (Math.abs(d) < 0.0001) d = A.perfect - B.perfect;
+    if (!d) d = A.sparks - B.sparks;
+    return { w: d > 0 ? "a" : d < 0 ? "b" : null, A: A, B: B };
+  }
+  function miniRing(pct, cls) {
+    var c = 2 * Math.PI * 15;
+    return '<span class="mr ' + cls + '"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="trk" cx="18" cy="18" r="15"/>' + (pct > 0 ? '<circle class="arc" cx="18" cy="18" r="15" stroke-dasharray="' + c.toFixed(2) + '" stroke-dashoffset="' + (c * (1 - pct)).toFixed(2) + '" transform="rotate(-90 18 18)"/>' : "") + "</svg></span>";
+  }
 
   /* ---------- views ---------- */
   function ringSVG(pct) {
@@ -688,7 +873,7 @@ details.notes[open] { display: grid; gap: 14px; }
     h += '<div class="arrows"><button class="arrow" data-act="day" data-d="-1" id="nav-prev" aria-label="Previous day">‹</button><button class="arrow" data-act="day" data-d="1" id="nav-next" aria-label="Next day"' + (k >= t ? " disabled" : "") + ">›</button></div></div>";
     if (k !== t) h += '<button class="back" data-act="gotoday" id="go-today">Back to today</button>';
 
-    h += '<section class="hero" aria-label="Progress"><div class="hrow"><div class="ring">' + ringSVG(sc.pct) + '<div class="c"><div><b class="num">' + sc.done + "/" + sc.total + "</b><span>" + (sc.off ? "meds" : "done") + "</span></div></div></div>";
+    h += '<section class="hero" aria-label="Progress"><div class="hrow"><div class="ring">' + ringSVG(sc.pct) + '<div class="c"><div><b class="num">' + sc.done + "/" + sc.total + "</b><span>" + (sc.off ? (sc.total ? "meds" : "day off") : "done") + "</span></div></div></div>";
     h += '<div class="hinfo"><button class="typechip" data-act="daysheet" id="daytype">' + TY.e + " " + TY.name + " <i>· change</i></button>";
     h += '<span class="l num">⚡ +' + dayEarn(k) + " sparks " + (k === t ? "today" : "that day") + "</span>";
     if (isPerfect(k)) h += '<span class="l">🌟 Perfect day</span>';
@@ -697,6 +882,10 @@ details.notes[open] { display: grid; gap: 14px; }
     var rs = rewardsSorted(), can = rs.filter(function (r) { return r.cost <= T.balance; }), nxt = rs.filter(function (r) { return r.cost > T.balance; })[0];
     if (can.length) h += '<button class="next" data-act="tab" data-tab="progress" id="hero-next">🎁 You can claim ' + esc(can[can.length - 1].emoji + " " + can[can.length - 1].name) + "</button>";
     else if (nxt) h += '<button class="next" data-act="tab" data-tab="progress" id="hero-next"><span class="num">Next reward: ' + esc(nxt.emoji + " " + nxt.name) + " · " + Math.max(0, T.balance) + "/" + nxt.cost + '</span><span class="nb"><i style="width:' + Math.round(clamp(T.balance / nxt.cost, 0, 1) * 100) + '%"></i></span></button>';
+    if (coupleOn() && C.ok && k === t) {
+      var vA = weekStats(me(), weekStart(t)), vB = weekStats(them(), weekStart(t));
+      h += '<button class="next" data-act="tab" data-tab="us" id="hero-vs">⚔️ This week: you ' + Math.round(vA.avg * 100) + "% · " + esc(partnerName()) + " " + Math.round(vB.avg * 100) + "%" + (vA.avg > vB.avg + 0.0001 ? " 👑" : "") + "</button>";
+    }
     h += "</section>";
 
     if (k < effStart()) h += '<p class="daynote">Your fresh start begins ' + esc(fmt(effStart(), { weekday: "long", day: "numeric", month: "long" })) + ". Nothing before then counts.</p>";
@@ -733,6 +922,9 @@ details.notes[open] { display: grid; gap: 14px; }
       var n = (day(k) || {}).water || 0, g = S.settings.waterGoal, drops = "";
       for (var i = 1; i <= g; i++) drops += '<button class="drop' + (i <= n ? " on" : "") + '" data-act="water" data-n="' + i + '" id="gl-' + i + '" aria-label="' + i + " of " + g + ' glasses">💧</button>';
       return '<li class="' + cls + '"><div class="rowbox">' + tile + '<span class="txt"><span class="nm">' + esc(it.label) + '</span><span class="sub">' + g + ' glasses of 250ml</span><span class="drops" role="group" aria-label="Glasses of water">' + drops + "</span></span>" + right + "</div></li>";
+    }
+    if (it.kind === "steps") {
+      return '<li class="' + cls + '"><button class="rowbtn" data-act="stepsheet" id="tk-steps">' + tile + '<span class="txt"><span class="nm">' + esc(it.label) + '</span><span class="sub">' + esc(it.sub) + "</span></span>" + right + "</button></li>";
     }
     if (it.kind === "outside") {
       var walks = (day(k) || {}).walks || [];
@@ -912,7 +1104,10 @@ details.notes[open] { display: grid; gap: 14px; }
       var ty = s.week[wd];
       h += '<button class="wd ' + ty + '" data-act="wdcycle" data-wd="' + wd + '" id="wd-' + wd + '" aria-label="' + WD_NAME[wd] + ": " + TYPES[ty].name + '"><span class="e">' + TYPES[ty].e + "</span>" + WD_SHORT[wd] + "</button>";
     });
-    h += '</div><div class="key"><span>🏋️ <b>Training.</b> ' + TYPES.train.desc + "</span><span>🧘 <b>Rest.</b> " + TYPES.rest.desc + "</span><span>🛋️ <b>Day off.</b> " + TYPES.off.desc + '</span><span class="faint">Wednesday is rest and Sunday is off, so you never train more than three days in a row. Tap a day to switch it.</span></div></section>';
+    h += '</div><div class="key"><span>🏋️ <b>Training.</b> ' + TYPES.train.desc + "</span><span>🧘 <b>Rest.</b> " + TYPES.rest.desc + "</span><span>🛋️ <b>Day off.</b> " + TYPES.off.desc + "</span><span>💼 <b>Work day.</b> " + TYPES.work.desc + '</span><span class="faint">Tap a day to switch it between training, rest, day off and work day.</span></div></section>';
+    h += '<section class="sec"><h2>📋 Your list</h2><p class="faint">Tap to switch things on or off.</p><div class="toggles">';
+    ITEM_LABELS.forEach(function (x) { h += '<button data-act="itemtoggle" data-k="' + x[0] + '" id="it-' + x[0] + '" aria-pressed="' + (s.items[x[0]] !== false) + '">' + x[1] + "</button>"; });
+    h += "</div></section>";
 
     h += '<section class="sec"><h2>💊 Meds</h2><div class="medrow"><span class="faint">Morning, as soon as you wake up</span>';
     s.meds.am.forEach(function (m, i) { h += '<input class="inp" id="ma-' + i + '" data-set="med" data-g="am" data-i="' + i + '" value="' + esc(m.name) + '" aria-label="Morning med ' + (i + 1) + '">'; });
@@ -931,7 +1126,7 @@ details.notes[open] { display: grid; gap: 14px; }
     h += '<div class="btns"><button class="btn line sm" data-act="fitadj" data-d="-1" id="fit-down"' + (fi.lvl === 0 ? " disabled" : "") + '>Too hard, go back</button><button class="btn line sm" data-act="fitadj" data-d="1" id="fit-up"' + (fi.lvl >= FIT.length - 1 ? " disabled" : "") + ">Too easy, skip ahead</button></div>";
     h += '<p class="faint">Knees complaining? Sit down on a chair and stand back up instead of a squat. It counts.</p></section>';
     h += '<section class="sec"><h2>🎯 Targets</h2><ul class="rows">';
-    [["flexPerWeek", "Extra days off a week", 1], ["waterGoal", "Glasses of water (250ml)", 1]].forEach(function (r) {
+    [["flexPerWeek", "Extra days off a week", 1], ["waterGoal", "Glasses of water (250ml)", 1], ["stepsGoal", "Steps goal on work days", 1000]].forEach(function (r) {
       h += '<li><span>' + r[1] + '</span><span class="stepper"><button data-act="adj" data-k="' + r[0] + '" data-d="-' + r[2] + '" id="adj-' + r[0] + '-m" aria-label="Less">−</button><span class="v">' + s[r[0]] + '</span><button data-act="adj" data-k="' + r[0] + '" data-d="' + r[2] + '" id="adj-' + r[0] + '-p" aria-label="More">+</button></span></li>';
     });
     h += '</ul><p class="faint">Extra days off are for bad days, on top of your planned week.</p></section>';
@@ -945,6 +1140,20 @@ details.notes[open] { display: grid; gap: 14px; }
     else h += '<button class="btn line sm" data-act="ldreset" id="ld-reset">Reset to original</button>';
     h += "</div></section>";
 
+    if (coupleOn()) {
+      var cp = s.couple, url = SUPA_URL + "/rest/v1/rpc/glow_steps_set";
+      h += '<section class="sec"><h2>👣 Steps from your Health app</h2><details class="guide"><summary>Set up automatic steps (iPhone, about 5 minutes)</summary><ol>';
+      h += '<li>Open the <b>Shortcuts</b> app, tap <b>+</b> and name it <b>' + SHORTCUT_NAME + "</b>.</li>";
+      h += "<li>Add <b>Find Health Samples</b>: Type is <b>Steps</b>, Start Date is <b>Today</b>.</li>";
+      h += "<li>Add <b>Calculate Statistics</b>: <b>Sum</b> of Health Samples.</li>";
+      h += "<li>Add <b>Format Date</b>: Current Date, Date Format <b>Custom</b>, format <code>yyyy-MM-dd</code>.</li>";
+      h += '<li>Add <b>Get Contents of URL</b> with this URL <button class="cp" data-act="copytext" data-text="' + esc(url) + '">copy</button><br><code>' + esc(url) + "</code></li>";
+      h += '<li>Tap Show More. Method <b>POST</b>. Add 2 headers: <code>apikey</code> = the key <button class="cp" data-act="copytext" data-text="' + esc(SUPA_KEY) + '">copy</button> and <code>Authorization</code> = <code>Bearer</code> + space + the same key <button class="cp" data-act="copytext" data-text="' + esc("Bearer " + SUPA_KEY) + '">copy</button></li>';
+      h += "<li>Request Body <b>JSON</b>, 4 fields: <code>p_code</code> Text <code>" + esc(cp.code) + '</code> <button class="cp" data-act="copytext" data-text="' + esc(cp.code) + '">copy</button>, <code>p_player</code> Text <code>' + me() + "</code>, <code>p_day</code> Text = Formatted Date, <code>p_steps</code> Number = Statistics.</li>";
+      h += "<li>Tap ▶ to test. Your steps should show on Today within a minute.</li>";
+      h += "<li>Then <b>Automation</b> tab → <b>+</b> → <b>Time of Day</b>, 9pm, Daily, <b>Run Immediately</b> → run <b>" + SHORTCUT_NAME + "</b>.</li>";
+      h += "</ol><p>If your steps come out about double (Apple Watch plus phone), add a filter in step 2: Source is your iPhone.</p></details></section>";
+    }
     var nDays = Object.keys(S.days).filter(function (k) { return k >= effStart() && hasAny(k); }).length;
     h += '<section class="sec"><h2>🌱 Start fresh</h2><p class="faint">Clears your ticks, walks and sparks and starts again tomorrow. Your plan, meds, rewards and ladder stay.</p>';
     if (ui.confirmFresh) h += '<div class="confirm"><p>Delete ' + nDays + (nDays === 1 ? " day" : " days") + ' of progress?</p><div class="btns"><button class="btn dark sm" data-act="fresh" data-yes="1" id="fr-yes">Start fresh</button><button class="btn line sm" data-act="fresh" data-no="1" id="fr-no">Cancel</button></div></div>';
@@ -960,10 +1169,98 @@ details.notes[open] { display: grid; gap: 14px; }
     return h + '<p class="sync ' + cls + '"><i></i><span>' + msg + "</span></p>";
   }
 
+  function setupHTML() {
+    var h = '<section class="hero"><p class="lv">Couple mode</p><p style="font-family:var(--display);font-weight:700;font-size:20px;line-height:1.3">Compete with your partner, see each other\'s rings and send vibes. Best week wins their prize.</p></section>';
+    if (ui.joinPick) {
+      var jp = ui.joinPick;
+      h += '<section class="sec"><h2>Which one are you?</h2><div class="btns">';
+      ["a", "b"].forEach(function (p) { h += '<button class="btn line" data-act="cppick" data-p="' + p + '" id="cp-pick-' + p + '">' + esc((jp.names[p]) || (p === "a" ? "Player 1" : "Player 2")) + "</button>"; });
+      return h + '</div><button class="back" style="margin:0" data-act="cpcancel" id="cp-cancel">Cancel</button></section>';
+    }
+    h += '<section class="sec"><h2>✨ Start a couple</h2><div class="fld"><label for="cp-name">Your first name</label><input class="inp" id="cp-name" maxlength="40" autocomplete="given-name"></div>';
+    h += '<div class="fld"><label for="cp-prize">If you win the week, they owe you…</label><input class="inp" id="cp-prize" maxlength="160" placeholder="Flowers, dinner, breakfast in bed…"></div>';
+    h += '<button class="btn go" data-act="cpcreate" id="cp-create">Create our couple</button></section>';
+    h += '<section class="sec"><h2>🔗 Join with a code</h2><div class="fld"><label for="cp-code">Couple code</label><input class="inp" id="cp-code" autocapitalize="characters" autocomplete="off" placeholder="ABCD-EFGH-JKLM"></div>';
+    h += '<div class="fld"><label for="cp-name2">Your first name</label><input class="inp" id="cp-name2" maxlength="40" autocomplete="given-name"></div>';
+    h += '<div class="fld"><label for="cp-prize2">If you win the week, they owe you…</label><input class="inp" id="cp-prize2" maxlength="160"></div>';
+    h += '<label class="chk"><input type="checkbox" id="cp-simple" checked><span>Give me a simple list: no meds, light lamp or outside walks. You can change this in Plan.</span></label>';
+    h += '<label class="chk"><input type="checkbox" id="cp-work" checked><span>I work Monday to Friday, so count my steps on those days instead of workouts.</span></label>';
+    h += '<button class="btn go" data-act="cpjoin" id="cp-join">Join</button></section>';
+    return h;
+  }
+  function leaveHTML() {
+    if (ui.confirmLeave) return '<div class="confirm"><p>Leave the couple on this phone? Your own progress stays.</p><div class="btns"><button class="btn dark sm" data-act="cpleave" data-yes="1" id="cp-leave-yes">Leave</button><button class="btn line sm" data-act="cpleave" data-no="1" id="cp-leave-no">Stay</button></div></div>';
+    return '<div><button class="btn line sm" data-act="cpleave" id="cp-leave">Leave couple</button></div>';
+  }
+  function vUs() {
+    var T = totals(), s = S.settings;
+    var h = topBar(T) + '<header class="sec" style="gap:6px"><h1>Us 💞</h1><p class="muted">Whoever has the better week wins their prize.</p></header>';
+    if (!SUPA_URL) return h + '<div class="notice"><p>' + (STANDALONE ? "Couple mode is nearly ready. It switches on as soon as the database is connected." : "Couple mode works in the Glow Up phone app, not in this Claude version.") + "</p></div>";
+    if (!coupleOn()) return h + setupHTML();
+    if (!C.ok) {
+      if (!C.err) return h + '<p class="empty">Loading your couple…</p>';
+      return h + '<div class="confirm"><p>' + esc(C.err) + '</p><div><button class="btn line sm" data-act="cpretry" id="cp-retry">Try again</button></div></div>' + leaveHTML();
+    }
+    var t = todayKey(), ws = weekStart(t), A = weekStats(me(), ws), B = weekStats(them(), ws);
+    var pA = Math.round(A.avg * 100), pB = Math.round(B.avg * 100), lead = A.avg - B.avg;
+    function side(name, avg, crown) {
+      return '<div class="vside"><span class="crown">' + (crown ? "👑" : "") + '</span><div class="vring">' + ringSVG(avg) + '<span class="c num">' + Math.round(avg * 100) + "%</span></div><b>" + esc(name) + "</b></div>";
+    }
+    h += '<section class="hero" aria-label="This week"><div class="vs">' + side(myName(), A.avg, lead > 0.0001) + '<div class="vmid">VS<small>ends Sunday</small></div>' + side(partnerName(), B.avg, lead < -0.0001) + "</div>";
+    var line = !A.n && !B.n ? "Fresh week. First ticks take the lead 🏁" : Math.abs(pA - pB) < 1 ? "Neck and neck 👀" : lead > 0 ? "You're ahead by " + (pA - pB) + "% 😏" : esc(partnerName()) + " is ahead by " + (pB - pA) + "%. Catch up! 🏃‍♀️";
+    h += '<p class="vline">' + line + "</p>";
+    h += '<div class="prizes"><span>🏆 If you win: ' + esc(prizeOf(me()) || "set your prize below") + "</span><span>🏆 If " + esc(partnerName()) + " wins: " + esc(prizeOf(them()) || "no prize set yet") + "</span></div></section>";
+
+    h += '<section class="sec"><h2>💌 Send a vibe</h2><div class="emotes">';
+    EMOTES.forEach(function (e, i) { h += '<button class="emo" data-act="emote" data-e="' + e + '" id="emo-' + i + '" aria-label="Send ' + e + '">' + e + "</button>"; });
+    h += "</div>";
+    if (C.emotes.length) {
+      h += '<ul class="feed">';
+      C.emotes.slice(0, 6).forEach(function (x) { h += '<li><span class="fe">' + esc(x.emoji) + "</span><span><b>" + esc(x.player === me() ? "You" : partnerName()) + "</b> · " + esc(ago(x.created_at)) + "</span></li>"; });
+      h += "</ul>";
+    } else h += '<p class="empty">No vibes yet. Send the first one.</p>';
+    h += "</section>";
+
+    h += '<section class="sec"><h2>📅 This week</h2><div class="wk2"><span></span>';
+    ["M", "T", "W", "T", "F", "S", "S"].forEach(function (d) { h += '<span class="hd">' + d + "</span>"; });
+    [me(), them()].forEach(function (p) {
+      h += '<span class="nmc">' + esc(p === me() ? "You" : partnerName()) + "</span>";
+      for (var i = 0; i < 7; i++) {
+        var k = addDays(ws, i), row = k <= t ? rowFor(p, k) : null, pct = row ? Number(row.pct) || 0 : 0;
+        var cls = (p === them() ? "p2 " : "") + (k > t ? "fut" : row && row.type === "off" ? "off" : pct >= 1 ? "full" : "");
+        h += miniRing(row && row.type === "off" ? 0 : pct, cls);
+      }
+    });
+    h += "</div>";
+    var tr = rowFor(them(), t), ts = C.steps[them()] && C.steps[them()][t];
+    h += '<p class="muted num">Today: you ' + Math.round(score(t).pct * 100) + "% · " + esc(partnerName()) + " " + (tr ? Math.round((Number(tr.pct) || 0) * 100) + "%" : "not started yet") + (ts ? " · 👣 " + fmtNum(ts) + " steps" : "") + "</p></section>";
+
+    var lw = addDays(ws, -7), W = weekWinner(lw);
+    if (W) {
+      h += '<section class="lastwk"><p>🏆 Last week: ';
+      if (!W.w) h += "a draw! " + Math.round(W.A.avg * 100) + "% each. Nobody owes anything 🤝</p>";
+      else {
+        var winner = W.w, loser = winner === "a" ? "b" : "a", paid = !!C.paid[lw];
+        h += esc(winner === me() ? "You won" : partnerName() + " won") + ", " + Math.round(weekStats(winner, lw).avg * 100) + "% vs " + Math.round(weekStats(loser, lw).avg * 100) + "%.</p>";
+        h += "<p>" + esc(loser === me() ? "You owe" : partnerName() + " owes you") + ": <b>" + esc(prizeOf(winner) || "a prize of the winner's choice") + "</b></p>";
+        h += '<div><button class="btn ' + (paid ? "line" : "dark") + ' sm" data-act="paid" data-w="' + lw + '" id="paid-btn">' + (paid ? "✅ Paid up" : "Mark as paid") + "</button></div>";
+      }
+      h += "</section>";
+    }
+
+    h += '<section class="sec"><h2>🎁 Your prize</h2><p class="faint">What ' + esc(partnerName()) + " owes you if you win the week.</p>";
+    h += '<input class="inp" id="cp-prize-edit" data-set="prize" maxlength="160" value="' + esc(s.couple.prize || "") + '" placeholder="Flowers, dinner, breakfast in bed…"></section>';
+    h += '<section class="sec"><h2>🔗 Couple code</h2><p class="faint">Your partner joins with this. Keep it between you two.</p><div class="codebox">' + esc(s.couple.code) + '</div><div class="btns"><button class="btn line sm" data-act="copytext" data-text="' + esc(s.couple.code) + '" id="cp-copy">Copy code</button></div>' + leaveHTML() + "</section>";
+    return h;
+  }
+
   /* ---------- render ---------- */
-  var VIEWS = { today: vToday, outside: vOutside, progress: vProgress, plan: vPlan };
+  var VIEWS = { today: vToday, outside: vOutside, progress: vProgress, us: vUs, plan: vPlan };
   function render() {
     fitCache = {};
+    var outOn = S.settings.items.outside !== false;
+    $("#tab-outside").hidden = !outOn;
+    if (!outOn && ui.tab === "outside") ui.tab = "today";
     $("#view").innerHTML = VIEWS[ui.tab]();
     var T = totals();
     document.querySelectorAll(".tabs button").forEach(function (b) {
@@ -1023,7 +1320,7 @@ details.notes[open] { display: grid; gap: 14px; }
   function openDaySheet() {
     var k = ui.date, cur = getType(k), s = S.settings;
     var h = '<h3 id="sheet-title">What kind of day is it?</h3><div class="opts">';
-    ["train", "rest", "off"].forEach(function (ty) {
+    ["train", "rest", "off", "work"].forEach(function (ty) {
       var T = TYPES[ty];
       h += '<button class="opt" data-sheet="type" data-type="' + ty + '" id="dt-' + ty + '" aria-pressed="' + (cur === ty) + '"><span class="tile ' + T.tone + '" aria-hidden="true">' + T.e + "</span><span><b>" + T.name + '</b><span class="s">' + T.desc + "</span></span></button>";
     });
@@ -1108,6 +1405,26 @@ details.notes[open] { display: grid; gap: 14px; }
     if (!lg.del) { lg.del = true; $("#f-del").textContent = "Tap again to delete"; return; }
     var d = dayDoc(lg.k); d.walks.splice(lg.i, 1); touch(lg.k); closeSheet(); toast("Walk deleted");
   }
+  function openSteps(k) {
+    var n = stepsOf(k), g = S.settings.stepsGoal;
+    var h = '<h3 id="sheet-title">👣 Steps</h3><p class="muted" style="margin-top:-10px">' + esc(fmt(k, { weekday: "long", day: "numeric", month: "long" })) + " · goal " + fmtNum(g) + "</p>";
+    h += '<div class="stepsbig">' + fmtNum(n) + '</div><div class="rbar"><i style="width:' + Math.round(clamp(n / g, 0, 1) * 100) + '%"></i></div>';
+    h += '<div class="fld"><label for="st-in">Type the steps from your Health app</label><input class="inp num" type="number" inputmode="numeric" min="0" max="200000" id="st-in" value="' + (n || "") + '" placeholder="e.g. 11250"></div>';
+    h += '<div class="btns"><button class="btn go" data-sheet="stepsave" data-date="' + k + '" id="st-save">Save steps</button>';
+    if (coupleOn() && k === todayKey()) h += '<a class="btn line" href="shortcuts://run-shortcut?name=' + encodeURIComponent(SHORTCUT_NAME) + '" id="st-sc">Send from Health</a>';
+    h += "</div>";
+    if (coupleOn()) h += '<p class="faint">"Send from Health" runs your ' + SHORTCUT_NAME + " shortcut. Set it up once in Plan.</p>";
+    openPanel(h);
+  }
+  function finishJoin(opts, player) {
+    var s = S.settings;
+    s.couple = { code: opts.code, me: player, name: opts.name, prize: opts.prize || "", seen: null };
+    if (opts.simple) { s.items.light = false; s.items.medsAM = false; s.items.medsPM = false; s.items.outside = false; }
+    if (opts.work) s.week = ["off", "work", "work", "work", "work", "work", "train"];
+    ui.joinPick = null; C.ok = false; C.err = null;
+    persist("settings"); render();
+    pushCouple().then(pullCouple).then(function () { confetti(); toast("💞 You're in! Game on."); });
+  }
   function makeCode() { return "GLOWUP1:" + btoa(unescape(encodeURIComponent(JSON.stringify({ v: 1, settings: S.settings, days: S.days })))); }
   function readCode(c) {
     c = String(c || "").replace(/\s+/g, "");
@@ -1131,6 +1448,15 @@ details.notes[open] { display: grid; gap: 14px; }
       else if (a0 === "edit") openLogger(sb.dataset.date, Number(sb.dataset.i));
       else if (a0 === "type") setType(ui.date, sb.dataset.type, false);
       else if (a0 === "offyes") setType(ui.date, "off", true);
+      else if (a0 === "stepsave") {
+        var sk = sb.dataset.date, sv = clamp(parseInt($("#st-in").value, 10) || 0, 0, 200000), be2 = dayEarn(sk), bp2 = isPerfect(sk);
+        var sd = dayDoc(sk); sd.steps = sv; touch(sk);
+        if (coupleOn()) rpc("glow_steps_set", { p_code: S.settings.couple.code, p_player: me(), p_day: sk, p_steps: sv }).catch(function () {});
+        closeSheet();
+        var g2 = dayEarn(sk) - be2;
+        toast(g2 > 0 ? "👣 Goal smashed! +" + g2 + " ⚡" : "👣 Steps saved");
+        if (!bp2 && isPerfect(sk)) { confetti(); setTimeout(function () { toast("🌟 Perfect day! +50 ⚡"); }, 2500); }
+      }
       return;
     }
     if (e.target.id === "sheet") { closeSheet(); return; }
@@ -1158,6 +1484,54 @@ details.notes[open] { display: grid; gap: 14px; }
       case "med": be = dayEarn(k); bp = isPerfect(k); d = dayDoc(k); d.done[b.dataset.key] = !d.done[b.dataset.key]; touch(k); render(); afterChange(k, be, bp, e); break;
       case "water": { be = dayEarn(k); bp = isPerfect(k); d = dayDoc(k); var n = Number(b.dataset.n); d.water = d.water === n ? n - 1 : n; touch(k); render(); afterChange(k, be, bp, e); break; }
       case "outsheet": openOutside(k); break;
+      case "stepsheet": openSteps(k); break;
+      case "itemtoggle": s.items[b.dataset.k] = s.items[b.dataset.k] === false; persist("settings"); render(); break;
+      case "copytext": { var txt = b.dataset.text; try { navigator.clipboard.writeText(txt).then(function () { toast("Copied"); }, function () { toast("Press and hold the text to copy it"); }); } catch (er) { toast("Press and hold the text to copy it"); } break; }
+      case "emote": {
+        if (!coupleOn()) break;
+        floatAt(e.clientX || window.innerWidth / 2, (e.clientY || 300) - 10, b.dataset.e);
+        rpc("glow_emote", { p_code: s.couple.code, p_player: me(), p_emoji: b.dataset.e }).then(function () { toast("Sent " + b.dataset.e + " to " + partnerName()); return pullCouple(); }).catch(function () { toast("Couldn't send. Check your signal."); });
+        break;
+      }
+      case "cpcreate": {
+        var nm = ($("#cp-name").value || "").trim(), pz = ($("#cp-prize").value || "").trim();
+        if (!nm) { toast("Add your first name first"); break; }
+        var code = makeCoupleCode();
+        rpc("glow_create", { p_code: code }).then(function (ok) {
+          if (!ok) throw new Error("no");
+          s.couple = { code: code, me: "a", name: nm.slice(0, 40), prize: pz.slice(0, 160), seen: null };
+          persist("settings"); C.ok = false; C.err = null; render();
+          return pushCouple().then(pullCouple).then(function () { confetti(); toast("💞 Couple created. Send your code!"); });
+        }).catch(function () { toast("Couldn't create it. Check your signal and try again."); });
+        break;
+      }
+      case "cpjoin": {
+        var jc = ($("#cp-code").value || "").trim().toUpperCase().replace(/\s+/g, ""), jn = ($("#cp-name2").value || "").trim();
+        if (jc.length === 12 && jc.indexOf("-") < 0) jc = jc.slice(0, 4) + "-" + jc.slice(4, 8) + "-" + jc.slice(8);
+        if (!jn) { toast("Add your first name first"); break; }
+        var opts = { code: jc, name: jn.slice(0, 40), prize: (($("#cp-prize2").value || "").trim()).slice(0, 160), simple: $("#cp-simple").checked, work: $("#cp-work").checked };
+        rpc("glow_pull", { p_code: jc, p_since: todayKey() }).then(function (res) {
+          if (!res) { toast("That code wasn't found. Check it and try again."); return; }
+          var names = {}; (res.players || []).forEach(function (x) { names[x.player] = x.name; });
+          opts.names = names;
+          if (names.a && names.b) { ui.joinPick = opts; render(); return; }
+          finishJoin(opts, names.a ? "b" : "a");
+        }).catch(function () { toast("Couldn't reach the couple server. Check your signal."); });
+        break;
+      }
+      case "cppick": finishJoin(ui.joinPick, b.dataset.p); break;
+      case "cpcancel": ui.joinPick = null; render(); break;
+      case "cpretry": C.err = null; render(); pushCouple().then(pullCouple); break;
+      case "cpleave": {
+        if (b.dataset.yes) { s.couple = null; ui.confirmLeave = false; C = { players: {}, days: { a: {}, b: {} }, steps: { a: {}, b: {} }, emotes: [], paid: {}, since: null, ok: false, err: null, loading: false, sig: "" }; persist("settings"); render(); toast("Left the couple"); }
+        else { ui.confirmLeave = !b.dataset.no; render(); }
+        break;
+      }
+      case "paid": {
+        var wk = b.dataset.w;
+        rpc("glow_paid_set", { p_code: s.couple.code, p_week: wk, p_paid: !C.paid[wk] }).then(function () { if (!C.paid[wk]) { confetti(); } return pullCouple(); }).catch(function () { toast("Couldn't save. Check your signal."); });
+        break;
+      }
       case "log": openLogger(b.dataset.date || k, null); break;
       case "editlog": openLogger(b.dataset.date || k, Number(b.dataset.i)); break;
       case "timerstart": startTimer(); go("outside"); break;
@@ -1197,8 +1571,8 @@ details.notes[open] { display: grid; gap: 14px; }
         ui.bkIn = false; ui.date = todayKey(); render(); confetti(); toast("💾 All imported");
         break;
       }
-      case "wdcycle": { var wd = Number(b.dataset.wd), order = ["train", "rest", "off"]; s.week[wd] = order[(order.indexOf(s.week[wd]) + 1) % 3]; persist("settings"); render(); break; }
-      case "adj": { var key = b.dataset.k, lim = { flexPerWeek: [0, 3], squats: [5, 300], waterGoal: [2, 12] }[key]; s[key] = clamp((Number(s[key]) || 0) + Number(b.dataset.d), lim[0], lim[1]); persist("settings"); render(); break; }
+      case "wdcycle": { var wd = Number(b.dataset.wd), order = ["train", "rest", "off", "work"]; s.week[wd] = order[(order.indexOf(s.week[wd]) + 1) % 4]; persist("settings"); render(); break; }
+      case "adj": { var key = b.dataset.k, lim = { flexPerWeek: [0, 3], squats: [5, 300], waterGoal: [2, 12], stepsGoal: [1000, 30000] }[key]; s[key] = clamp((Number(s[key]) || 0) + Number(b.dataset.d), lim[0], lim[1]); persist("settings"); render(); break; }
       case "lddel": { var di = Number(b.dataset.i); if (s.ladder.length <= 2) break; s.ladder.splice(di, 1); s.prior.splice(di, 1); if (s.step >= s.ladder.length) s.step = s.ladder.length - 1; else if (di < s.step) s.step--; persist("settings"); render(); break; }
       case "ldadd": s.ladder.push("New step"); s.prior.push(false); persist("settings"); render(); setTimeout(function () { var el = $("#ld-" + (s.ladder.length - 1)); if (el) { el.focus(); el.select(); } }, 20); break;
       case "ldreset": { if (b.dataset.yes) { s.ladder = LADDER_DEFAULT.slice(); s.prior = PRIOR_DEFAULT.slice(); s.step = clamp(s.step, 0, s.ladder.length - 1); ui.confirmReset = false; persist("settings"); } else ui.confirmReset = !b.dataset.no; render(); break; }
@@ -1217,6 +1591,7 @@ details.notes[open] { display: grid; gap: 14px; }
     if (set === "ladder") { var v = el.value.trim().slice(0, 140); if (v) { s.ladder[Number(el.dataset.i)] = v; persist("settings"); } else el.value = s.ladder[Number(el.dataset.i)]; }
     else if (set === "med") { var arr = s.meds[el.dataset.g], m = arr && arr[Number(el.dataset.i)], mv = el.value.trim().slice(0, 60); if (!m) return; if (mv) { m.name = mv; persist("settings"); } else el.value = m.name; }
     else if (set === "pmtime") { if (/^\d\d:\d\d$/.test(el.value)) { s.meds.pmTime = el.value; persist("settings"); } }
+    else if (set === "prize") { if (s.couple) { s.couple.prize = el.value.trim().slice(0, 160); persist("settings"); toast("Prize saved"); } }
     else if (set === "rw") {
       var r = s.rewards[Number(el.dataset.i)], f = el.dataset.f;
       if (!r) return;
@@ -1246,6 +1621,9 @@ details.notes[open] { display: grid; gap: 14px; }
     else if (m !== lastMin) { lastMin = m; if (idle && ui.tab === "today") { if (pmDue(ui.date) !== !!document.querySelector(".alert")) render(); } }
   }, 1000);
 
+  setInterval(function () { if (coupleOn() && document.visibilityState === "visible") pullCouple(); }, 20000);
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible" && coupleOn()) pushCouple().then(pullCouple); });
+
   /* ---------- boot ---------- */
   var cached = lsRead(LS_KEY);
   if (cached && cached.settings) { S.settings = mergeSettings(cached.settings); S.days = cached.days || {}; }
@@ -1256,6 +1634,7 @@ details.notes[open] { display: grid; gap: 14px; }
   if (VIEWS[hsh]) ui.tab = hsh;
   render();
   connect();
+  if (coupleOn()) pushCouple().then(pullCouple);
 })();
 </script>
 <script>if ("serviceWorker" in navigator) { window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); }); }</script>
