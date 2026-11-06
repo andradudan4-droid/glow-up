@@ -292,7 +292,7 @@ details.earnbox[open] { display: grid; gap: 8px; }
 .tabs .badge { position: absolute; top: 7px; left: calc(50% + 10px); width: 9px; height: 9px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 8px var(--pink); }
 .pill { position: fixed; z-index: 19; left: 50%; transform: translateX(-50%); bottom: calc(74px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 12px; background: var(--ink); color: #fff; border-radius: 99px; padding: 6px 6px 6px 16px; font-size: 14px; font-weight: 700; white-space: nowrap; box-shadow: 0 8px 22px rgba(0,0,0,.2); }
 .pill .btn { min-height: 34px; padding: 0 14px; font-size: 13px; background: var(--pink); color: #fff; }
-.toast { position: fixed; z-index: 70; left: 50%; transform: translateX(-50%); bottom: calc(128px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 14px; font-weight: 800; font-size: 14.5px; white-space: nowrap; box-shadow: 0 8px 22px rgba(0,0,0,.2); }
+.toast { position: fixed; z-index: 70; left: 50%; transform: translateX(-50%); bottom: calc(128px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 14px; font-weight: 800; font-size: 14.5px; width: max-content; max-width: calc(100% - 32px); text-align: center; box-shadow: 0 8px 22px rgba(0,0,0,.2); }
 .float { position: fixed; z-index: 80; pointer-events: none; font-weight: 800; font-size: 16px; color: var(--pink-deep); transform: translate(-50%, -50%); animation: up .9s ease-out forwards; text-shadow: 0 0 10px rgba(255,46,147,.35); }
 @keyframes up { from { opacity: 0; transform: translate(-50%, -30%); } 20% { opacity: 1; } to { opacity: 0; transform: translate(-50%, -190%); } }
 #confetti { position: fixed; inset: 0; z-index: 75; pointer-events: none; width: 100%; height: 100%; }
@@ -432,14 +432,26 @@ details.notes[open] { display: grid; gap: 14px; }
     { id: "r5", emoji: "🛍️", name: "Shopping day", cost: 6000 }
   ];
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
-  var DEF_ITEMS = { light: true, medsAM: true, wake: true, water: true, workout: true, outside: true, tidy: true, medsPM: true, read: true, detox: true, sleep: true };
+  var DEF_ITEMS = { light: true, medsAM: true, wake: true, water: true, workout: true, steps: false, outside: true, tidy: true, medsPM: true, read: true, detox: true, sleep: true };
+  var HABIT_KEYS = ["light", "medsAM", "medsPM", "outside", "water", "wake", "tidy", "read", "detox", "sleep"];
+  var STRENGTH_WEEK = ["off", "train", "rest", "train", "rest", "train", "train"];
+  var FIT2 = [
+    { plank: "15 seconds", push: "5 knee push-ups", core: "8 crunches", rounds: 2 },
+    { plank: "20 seconds", push: "6 knee push-ups", core: "10 crunches", rounds: 2 },
+    { plank: "25 seconds", push: "5 push-ups", core: "12 crunches", rounds: 2 },
+    { plank: "30 seconds", push: "6 push-ups", core: "10 sit-ups", rounds: 3 },
+    { plank: "40 seconds", push: "8 push-ups", core: "12 sit-ups", rounds: 3 },
+    { plank: "45 seconds", push: "10 push-ups", core: "15 sit-ups", rounds: 3 },
+    { plank: "60 seconds", push: "12 push-ups", core: "15 sit-ups", rounds: 3, side: "20 seconds each side" },
+    { plank: "75 seconds", push: "15 push-ups", core: "20 sit-ups", rounds: 3, side: "30 seconds each side" }
+  ];
   var DEFAULTS = {
     v: 2, start: null, epoch: 0,
     week: WEEK_DEFAULT.slice(), flexPerWeek: 1, squats: 40, waterGoal: 4,
     step: 0, stepChosen: true, snooze: null,
     ladder: LADDER_DEFAULT.slice(), prior: PRIOR_DEFAULT.slice(),
     meds: clone(MEDS_DEFAULT), rewards: clone(REWARDS_DEFAULT), claims: [], stepUps: [], fitAdj: 0,
-    items: clone(DEF_ITEMS), stepsGoal: 10000, couple: null
+    items: clone(DEF_ITEMS), stepsGoal: 10000, couple: null, program: "squats"
   };
   var TYPES = {
     train: { e: "🏋️", name: "Training day", tone: "t-pink", desc: "Everything counts." },
@@ -471,7 +483,7 @@ details.notes[open] { display: grid; gap: 14px; }
   var STANDALONE = true;
   var SHORTCUT_NAME = "Glow Up Steps";
   var EMOTES = ["🔥", "💪", "😘", "👏", "😂", "🫶", "😈", "👀", "🐢", "👑"];
-  var ITEM_LABELS = [["light", "🔆 Light lamp"], ["medsAM", "💊 Morning meds"], ["wake", "⏰ Wake early"], ["water", "💧 Water"], ["workout", "💪 Workout or steps"], ["outside", "🚶‍♀️ Outside walk"], ["tidy", "🧽 Tidy"], ["medsPM", "💊 Evening meds"], ["read", "📖 Read"], ["detox", "📵 Detox"], ["sleep", "😴 Early night"]];
+  var ITEM_LABELS = [["light", "🔆 Light lamp"], ["medsAM", "💊 Morning meds"], ["wake", "⏰ Wake early"], ["water", "💧 Water"], ["workout", "💪 Workout"], ["steps", "👣 Steps on work days"], ["outside", "🚶‍♀️ Outside walk"], ["tidy", "🧽 Tidy"], ["medsPM", "💊 Evening meds"], ["read", "📖 Read"], ["detox", "📵 Detox"], ["sleep", "😴 Early night"]];
 
   /* ---------- helpers ---------- */
   function $(s) { return document.querySelector(s); }
@@ -506,6 +518,12 @@ details.notes[open] { display: grid; gap: 14px; }
     if (!Array.isArray(s.claims)) s.claims = [];
     if (!Array.isArray(s.stepUps)) s.stepUps = [];
     s.items = Object.assign(clone(DEF_ITEMS), s.items || {});
+    if (s.week.indexOf("work") >= 0) { s.week = s.week.map(function (t) { return t === "work" ? "train" : t; }); s.items.steps = true; }
+    if (raw.program === undefined && raw.couple && raw.couple.me === "b") {
+      s.program = "strength"; s.week = STRENGTH_WEEK.slice(); s.items.steps = true;
+      HABIT_KEYS.forEach(function (k) { s.items[k] = false; });
+    }
+    if (s.program !== "strength") s.program = "squats";
     s.stepsGoal = clamp(Number(s.stepsGoal) || 10000, 1000, 50000);
     return s;
   }
@@ -611,10 +629,12 @@ details.notes[open] { display: grid; gap: 14px; }
   }
   function touch(k) { S.days[k].updated = Date.now(); persist("d-" + k); }
   function plannedType(k) { return S.settings.week[fromKey(k).getDay()] || "train"; }
-  function getType(k) { var d = day(k); return (d && d.type) || plannedType(k); }
+  function getType(k) { var d = day(k), t = (d && d.type) || plannedType(k); return t === "work" ? "train" : t; }
+  function isWorkday(k) { var d = day(k); return S.settings.items.steps !== false && !!(d && (d.work || d.type === "work")); }
+  function strengthDone(d) { return !!(d && d.done && d.done.plank && d.done.pushups && d.done.core); }
   function squatDays(ws) {
     var n = 0;
-    for (var i = 0; i < 7; i++) { var dk = addDays(ws, i), d = day(dk); if (dk >= effStart() && ((d && d.done && d.done.squats) || (plannedOrSet(dk) === "work" && stepsOf(dk) >= S.settings.stepsGoal))) n++; }
+    for (var i = 0; i < 7; i++) { var dk = addDays(ws, i), d = day(dk); if (dk >= effStart() && ((d && d.done && d.done.squats) || strengthDone(d) || (isWorkday(dk) && stepsOf(dk) >= S.settings.stepsGoal))) n++; }
     return n;
   }
   var fitCache = {};
@@ -629,19 +649,26 @@ details.notes[open] { display: grid; gap: 14px; }
   function medNames(list) { return list.map(function (m) { return m.name; }).join(" + "); }
 
   function itemsFor(k) {
-    var s = S.settings, type = getType(k), off = type === "off", work = type === "work", L = [];
+    var s = S.settings, type = getType(k), off = type === "off", work = isWorkday(k), L = [];
     var lt = (Math.round(s.waterGoal * 25) / 100) + "L";
     L.push({ id: "light", sec: "am", e: "🔆", tone: "t-yellow", label: "Light lamp, 20 to 30 min", sub: "Within an hour of waking, 40 to 60cm away, eyes open but not staring into it", pts: 10 });
     L.push({ id: "medsAM", sec: "am", e: "💊", tone: "t-violet", label: "Morning meds", kind: "meds", meds: s.meds.am, pts: 10, must: true });
     L.push({ id: "wake", sec: "am", e: "⏰", tone: "t-orange", label: "Wake up early", sub: "Out of bed, curtains open, no snoozing", pts: 10 });
     L.push({ id: "water", sec: "am", e: "💧", tone: "t-cyan", label: lt + " of water", kind: "water", pts: 10 });
-    if (type === "rest") L.push({ id: "stretch", grp: "workout", sec: "am", e: "🧘", tone: "t-violet", label: "Gentle stretch", sub: "10 minutes", pts: 10, optional: true });
-    var fi = fitInfo(k), F = FIT[fi.lvl], top = fi.lvl >= FIT.length - 1;
+    var fi = fitInfo(k), F = FIT[fi.lvl], G = FIT2[fi.lvl], top = fi.lvl >= FIT.length - 1, strength = s.program === "strength";
+    if (type === "rest" && !work) L.push({ id: "stretch", grp: "workout", sec: "am", e: "🧘", tone: "t-violet", label: "Gentle stretch", sub: "10 minutes", pts: 10, optional: true });
     var fsub = "Level " + (fi.lvl + 1) + " · " + (top ? "top level, keep it going" : fi.done >= 3 ? "level up locked in for next week 🎉" : fi.done + " of 3 workouts this week to level up");
-    if (type !== "rest" && !work) L.push({ id: "squats", grp: "workout", sec: "am", e: "🦵", tone: "t-pink", label: "Squats: " + F.sq + F.x, sub: fsub, pts: 15 });
+    if (type !== "rest" && !work && strength) {
+      var rnd = G.rounds + " rounds, rest a minute between";
+      L.push({ id: "plank", grp: "workout", sec: "day", e: "🧱", tone: "t-pink", label: "Plank: " + G.plank, sub: fsub, pts: 12 });
+      L.push({ id: "pushups", grp: "workout", sec: "day", e: "💪", tone: "t-orange", label: "Push-ups: " + G.push, sub: rnd + ". Knees down is fine", pts: 12 });
+      L.push({ id: "core", grp: "workout", sec: "day", e: "🔥", tone: "t-violet", label: "Core: " + G.core, sub: rnd, pts: 11 });
+      if (G.side) L.push({ id: "sideplank", grp: "workout", sec: "day", e: "↔️", tone: "t-cyan", label: "Side plank: " + G.side, sub: rnd, pts: 10 });
+    }
+    if (type !== "rest" && !work && !strength) L.push({ id: "squats", grp: "workout", sec: "am", e: "🦵", tone: "t-pink", label: "Squats: " + F.sq + F.x, sub: fsub, pts: 15 });
     L.push({ id: "outside", sec: "day", e: "🚶‍♀️", tone: "t-lime", label: "Outside walk", sub: "Step " + (s.step + 1) + ": " + s.ladder[s.step], kind: "outside", pts: off ? 60 : 40 });
-    if (work) L.push({ id: "steps", grp: "workout", sec: "day", e: "👣", tone: "t-lime", label: fmtNum(s.stepsGoal) + " steps", sub: stepsSub(k), kind: "steps", pts: 35 });
-    else if (type !== "rest") L.push({ id: "cardio", grp: "workout", sec: "day", e: "💃", tone: "t-orange", label: "Cardio: " + F.ca, sub: F.tip, pts: 20 });
+    if (work) L.push({ id: "steps", grp: "steps", sec: "day", e: "👣", tone: "t-lime", label: fmtNum(s.stepsGoal) + " steps at work", sub: stepsSub(k), kind: "steps", pts: 35 });
+    else if (type !== "rest" && !strength) L.push({ id: "cardio", grp: "workout", sec: "day", e: "💃", tone: "t-orange", label: "Cardio: " + F.ca, sub: F.tip, pts: 20 });
     L.push({ id: "tidy", sec: "day", e: "🧽", tone: "t-cyan", label: "Tidy up and wash the dishes", sub: "Sink empty, one surface cleared", pts: 10 });
     L.push({ id: "medsPM", sec: "pm", e: "💊", tone: "t-violet", label: fmtTime(s.meds.pmTime) + " meds", kind: "meds", meds: s.meds.pm, pts: 20, must: true });
     L.push({ id: "read", sec: "pm", e: "📖", tone: "t-orange", label: "Read 30 pages", sub: "A real book, not your phone", pts: 15 });
@@ -663,7 +690,7 @@ details.notes[open] { display: grid; gap: 14px; }
   function score(k) {
     var items = itemsFor(k).filter(function (i) { return !i.optional; });
     var done = items.filter(function (i) { return isDone(k, i); }).length;
-    return { done: done, total: items.length, pct: items.length ? done / items.length : 0, off: getType(k) === "off" };
+    return { done: done, total: items.length, pct: items.length ? done / items.length : 0, off: getType(k) === "off" || items.length === 0 };
   }
   function isPerfect(k) { var sc = score(k); return !sc.off && sc.pct === 1; }
   function dayEarn(k) {
@@ -779,7 +806,7 @@ details.notes[open] { display: grid; gap: 14px; }
     for (var k = addDays(weekStart(t), -7); k <= t; k = addDays(k, 1)) {
       if (k < effStart()) continue;
       var sc = score(k);
-      rows.push({ day: k, done: sc.done, total: sc.total, pct: Math.round(sc.pct * 1000) / 1000, sparks: dayEarn(k), type: getType(k) });
+      rows.push({ day: k, done: sc.done, total: sc.total, pct: Math.round(sc.pct * 1000) / 1000, sparks: dayEarn(k), type: sc.off ? "off" : getType(k) });
     }
     return rpc("glow_push", { p_code: s.couple.code, p_player: me(), p_name: myName(), p_prize: s.couple.prize || "", p_week: s.week, p_days: rows })
       .then(function (ok) { if (ok === false) C.err = "That couple code isn't recognised any more."; })
@@ -875,8 +902,9 @@ details.notes[open] { display: grid; gap: 14px; }
     h += '<div class="arrows"><button class="arrow" data-act="day" data-d="-1" id="nav-prev" aria-label="Previous day">‹</button><button class="arrow" data-act="day" data-d="1" id="nav-next" aria-label="Next day"' + (k >= t ? " disabled" : "") + ">›</button></div></div>";
     if (k !== t) h += '<button class="back" data-act="gotoday" id="go-today">Back to today</button>';
 
-    h += '<section class="hero" aria-label="Progress"><div class="hrow"><div class="ring">' + ringSVG(sc.pct) + '<div class="c"><div><b class="num">' + sc.done + "/" + sc.total + "</b><span>" + (sc.off ? (sc.total ? "meds" : "day off") : "done") + "</span></div></div></div>";
+    h += '<section class="hero" aria-label="Progress"><div class="hrow"><div class="ring">' + ringSVG(sc.pct) + '<div class="c"><div><b class="num">' + sc.done + "/" + sc.total + "</b><span>" + (sc.off ? (sc.total ? "meds" : getType(k) === "rest" ? "rest" : "day off") : "done") + "</span></div></div></div>";
     h += '<div class="hinfo"><button class="typechip" data-act="daysheet" id="daytype">' + TY.e + " " + TY.name + " <i>· change</i></button>";
+    if (s.items.steps !== false && k >= effStart()) h += '<button class="typechip" data-act="worktoggle" id="worktoggle" aria-pressed="' + isWorkday(k) + '">' + (isWorkday(k) ? "💼 Working today ✓" : "💼 Working today?") + "</button>";
     h += '<span class="l num">⚡ +' + dayEarn(k) + " sparks " + (k === t ? "today" : "that day") + "</span>";
     if (isPerfect(k)) h += '<span class="l">🌟 Perfect day</span>';
     else if (T.streak > 0) h += '<span class="l num">🔥 ' + T.streak + "-day streak</span>";
@@ -891,6 +919,7 @@ details.notes[open] { display: grid; gap: 14px; }
     h += "</section>";
 
     if (k < effStart()) h += '<p class="daynote">Your fresh start begins ' + esc(fmt(effStart(), { weekday: "long", day: "numeric", month: "long" })) + ". Nothing before then counts.</p>";
+    else if (isWorkday(k)) h += '<p class="daynote">💼 Working today, so your steps count instead of your workout.</p>';
     else if (type !== "train") h += '<p class="daynote">' + esc(TY.desc) + "</p>";
 
     if (pmDue(k)) h += '<section class="alert" aria-label="Evening meds due"><p>💊 It\'s past ' + fmtTime(s.meds.pmTime) + ". Time for your evening meds.</p>" + medChips(k, pmItem(k), "al") + "</section>";
@@ -1106,7 +1135,7 @@ details.notes[open] { display: grid; gap: 14px; }
       var ty = s.week[wd];
       h += '<button class="wd ' + ty + '" data-act="wdcycle" data-wd="' + wd + '" id="wd-' + wd + '" aria-label="' + WD_NAME[wd] + ": " + TYPES[ty].name + '"><span class="e">' + TYPES[ty].e + "</span>" + WD_SHORT[wd] + "</button>";
     });
-    h += '</div><div class="key"><span>🏋️ <b>Training.</b> ' + TYPES.train.desc + "</span><span>🧘 <b>Rest.</b> " + TYPES.rest.desc + "</span><span>🛋️ <b>Day off.</b> " + TYPES.off.desc + "</span><span>💼 <b>Work day.</b> " + TYPES.work.desc + '</span><span class="faint">Tap a day to switch it between training, rest, day off and work day.</span></div></section>';
+    h += '</div><div class="key"><span>🏋️ <b>Training.</b> ' + TYPES.train.desc + "</span><span>🧘 <b>Rest.</b> " + TYPES.rest.desc + "</span><span>🛋️ <b>Day off.</b> " + TYPES.off.desc + "</span>" + (s.items.steps !== false ? "<span>💼 <b>Working?</b> Tap \"Working today\" on Today and your steps count instead of that day\'s workout.</span>" : "") + '<span class="faint">Tap a day to switch it between training, rest and day off.</span></div></section>';
     h += '<section class="sec"><h2>📋 Your list</h2><p class="faint">Tap to switch things on or off.</p><div class="toggles">';
     ITEM_LABELS.forEach(function (x) { h += '<button data-act="itemtoggle" data-k="' + x[0] + '" id="it-' + x[0] + '" aria-pressed="' + (s.items[x[0]] !== false) + '">' + x[1] + "</button>"; });
     h += "</div></section>";
@@ -1119,14 +1148,17 @@ details.notes[open] { display: grid; gap: 14px; }
     h += '<p class="faint">After this time, Today shows a pink reminder until both pills are ticked. The page can\'t buzz your phone while it\'s closed, so keep a phone alarm for it too.</p></div></section>';
 
     var fi = fitInfo(todayKey());
-    h += '<section class="sec"><h2>💪 Fitness plan</h2><p class="faint">You move up a level each week you do your squats on at least 3 days. Miss a week and you just repeat it, no stress. Every level up is +50 ⚡.</p><ol class="ladder">';
-    FIT.forEach(function (f, i) {
+    var strong = s.program === "strength";
+    h += '<section class="sec"><h2>💪 Fitness plan</h2><div class="toggles"><button data-act="program" data-p="squats" id="pg-squats" aria-pressed="' + !strong + '">🦵 Squats + cardio</button><button data-act="program" data-p="strength" id="pg-strength" aria-pressed="' + strong + '">🧱 Plank, push-ups, sit-ups</button></div>';
+    h += '<p class="faint">You move up a level each week you do your workout on at least 3 days' + (s.items.steps !== false ? " (a work day where you hit your steps counts too)" : "") + '. Miss a week and you just repeat it, no stress. Every level up is +50 ⚡.</p><ol class="ladder">';
+    (strong ? FIT2 : FIT).forEach(function (f, i) {
       var cls = i < fi.lvl ? "past" : i === fi.lvl ? "cur" : "ahead";
-      h += '<li><div class="lrow ' + cls + '"><span class="n">' + (i < fi.lvl ? CHECK : i + 1) + '</span><span class="t">Squats ' + f.sq + f.x + " · cardio " + f.ca + "</span></div></li>";
+      var txt = strong ? "Plank " + f.plank + " · " + f.push + " · " + f.core + (f.side ? " · side plank " + f.side : "") + " · " + f.rounds + " rounds" : "Squats " + f.sq + f.x + " · cardio " + f.ca;
+      h += '<li><div class="lrow ' + cls + '"><span class="n">' + (i < fi.lvl ? CHECK : i + 1) + '</span><span class="t">' + esc(txt) + "</span></div></li>";
     });
-    h += '</ol><p class="faint num">This week: ' + fi.done + " of 3 squat days done.</p>";
+    h += '</ol><p class="faint num">This week: ' + fi.done + " of 3 workout days done.</p>";
     h += '<div class="btns"><button class="btn line sm" data-act="fitadj" data-d="-1" id="fit-down"' + (fi.lvl === 0 ? " disabled" : "") + '>Too hard, go back</button><button class="btn line sm" data-act="fitadj" data-d="1" id="fit-up"' + (fi.lvl >= FIT.length - 1 ? " disabled" : "") + ">Too easy, skip ahead</button></div>";
-    h += '<p class="faint">Knees complaining? Sit down on a chair and stand back up instead of a squat. It counts.</p></section>';
+    h += '<p class="faint">' + (strong ? "Push-ups too hard? Do them with your knees down, or against a kitchen counter. It counts." : "Knees complaining? Sit down on a chair and stand back up instead of a squat. It counts.") + "</p></section>";
     h += '<section class="sec"><h2>🎯 Targets</h2><ul class="rows">';
     [["flexPerWeek", "Extra days off a week", 1], ["waterGoal", "Glasses of water (250ml)", 1], ["stepsGoal", "Steps goal on work days", 1000]].forEach(function (r) {
       h += '<li><span>' + r[1] + '</span><span class="stepper"><button data-act="adj" data-k="' + r[0] + '" data-d="-' + r[2] + '" id="adj-' + r[0] + '-m" aria-label="Less">−</button><span class="v">' + s[r[0]] + '</span><button data-act="adj" data-k="' + r[0] + '" data-d="' + r[2] + '" id="adj-' + r[0] + '-p" aria-label="More">+</button></span></li>';
@@ -1186,8 +1218,8 @@ details.notes[open] { display: grid; gap: 14px; }
     h += '<section class="sec"><h2>🔗 Join with a code</h2><div class="fld"><label for="cp-code">Couple code</label><input class="inp" id="cp-code" autocapitalize="characters" autocomplete="off" placeholder="ABCD-EFGH-JKLM"></div>';
     h += '<div class="fld"><label for="cp-name2">Your first name</label><input class="inp" id="cp-name2" maxlength="40" autocomplete="given-name"></div>';
     h += '<div class="fld"><label for="cp-prize2">If you win the week, they owe you…</label><input class="inp" id="cp-prize2" maxlength="160"></div>';
-    h += '<label class="chk"><input type="checkbox" id="cp-simple" checked><span>Give me a simple list: no meds, light lamp or outside walks. You can change this in Plan.</span></label>';
-    h += '<label class="chk"><input type="checkbox" id="cp-work" checked><span>I work Monday to Friday, so count my steps on those days instead of workouts.</span></label>';
+    h += '<label class="chk"><input type="checkbox" id="cp-simple" checked><span>Just workouts for me: plank, push-ups and sit-ups that start gentle, with rest days built in. You can add habits later in Plan.</span></label>';
+    h += '<label class="chk"><input type="checkbox" id="cp-work" checked><span>On days I\'m working, count my steps instead of that day\'s workout.</span></label>';
     h += '<button class="btn go" data-act="cpjoin" id="cp-join">Join</button></section>';
     return h;
   }
@@ -1323,7 +1355,7 @@ details.notes[open] { display: grid; gap: 14px; }
   function openDaySheet() {
     var k = ui.date, cur = getType(k), s = S.settings;
     var h = '<h3 id="sheet-title">What kind of day is it?</h3><div class="opts">';
-    ["train", "rest", "off", "work"].forEach(function (ty) {
+    ["train", "rest", "off"].forEach(function (ty) {
       var T = TYPES[ty];
       h += '<button class="opt" data-sheet="type" data-type="' + ty + '" id="dt-' + ty + '" aria-pressed="' + (cur === ty) + '"><span class="tile ' + T.tone + '" aria-hidden="true">' + T.e + "</span><span><b>" + T.name + '</b><span class="s">' + T.desc + "</span></span></button>";
     });
@@ -1422,8 +1454,8 @@ details.notes[open] { display: grid; gap: 14px; }
   function finishJoin(opts, player) {
     var s = S.settings;
     s.couple = { code: opts.code, me: player, name: opts.name, prize: opts.prize || "", seen: null };
-    if (opts.simple) { s.items.light = false; s.items.medsAM = false; s.items.medsPM = false; s.items.outside = false; }
-    if (opts.work) s.week = ["off", "work", "work", "work", "work", "work", "train"];
+    if (opts.simple) { s.program = "strength"; s.week = STRENGTH_WEEK.slice(); HABIT_KEYS.forEach(function (key) { s.items[key] = false; }); s.items.workout = true; }
+    s.items.steps = !!opts.work;
     ui.joinPick = null; C.ok = false; C.err = null;
     persist("settings"); render();
     pushCouple().then(pullCouple).then(function () { confetti(); toast("💞 You're in! Game on."); });
@@ -1488,6 +1520,8 @@ details.notes[open] { display: grid; gap: 14px; }
       case "water": { be = dayEarn(k); bp = isPerfect(k); d = dayDoc(k); var n = Number(b.dataset.n); d.water = d.water === n ? n - 1 : n; touch(k); render(); afterChange(k, be, bp, e); break; }
       case "outsheet": openOutside(k); break;
       case "stepsheet": openSteps(k); break;
+      case "worktoggle": { be = dayEarn(k); bp = isPerfect(k); d = dayDoc(k); d.work = !isWorkday(k); if (d.type === "work") d.type = "train"; touch(k); render(); toast(d.work ? "💼 Steps count today instead of the workout" : "💪 Workout is back on for today"); afterChange(k, be, bp, e); break; }
+      case "program": s.program = b.dataset.p === "strength" ? "strength" : "squats"; persist("settings"); render(); toast(s.program === "strength" ? "🧱 Strength plan on" : "🦵 Squats + cardio plan on"); break;
       case "itemtoggle": s.items[b.dataset.k] = s.items[b.dataset.k] === false; persist("settings"); render(); break;
       case "copytext": { var txt = b.dataset.text; try { navigator.clipboard.writeText(txt).then(function () { toast("Copied"); }, function () { toast("Press and hold the text to copy it"); }); } catch (er) { toast("Press and hold the text to copy it"); } break; }
       case "emote": {
@@ -1574,7 +1608,7 @@ details.notes[open] { display: grid; gap: 14px; }
         ui.bkIn = false; ui.date = todayKey(); render(); confetti(); toast("💾 All imported");
         break;
       }
-      case "wdcycle": { var wd = Number(b.dataset.wd), order = ["train", "rest", "off", "work"]; s.week[wd] = order[(order.indexOf(s.week[wd]) + 1) % 4]; persist("settings"); render(); break; }
+      case "wdcycle": { var wd = Number(b.dataset.wd), order = ["train", "rest", "off"]; s.week[wd] = order[(order.indexOf(s.week[wd]) + 1) % 3]; persist("settings"); render(); break; }
       case "adj": { var key = b.dataset.k, lim = { flexPerWeek: [0, 3], squats: [5, 300], waterGoal: [2, 12], stepsGoal: [1000, 30000] }[key]; s[key] = clamp((Number(s[key]) || 0) + Number(b.dataset.d), lim[0], lim[1]); persist("settings"); render(); break; }
       case "lddel": { var di = Number(b.dataset.i); if (s.ladder.length <= 2) break; s.ladder.splice(di, 1); s.prior.splice(di, 1); if (s.step >= s.ladder.length) s.step = s.ladder.length - 1; else if (di < s.step) s.step--; persist("settings"); render(); break; }
       case "ldadd": s.ladder.push("New step"); s.prior.push(false); persist("settings"); render(); setTimeout(function () { var el = $("#ld-" + (s.ladder.length - 1)); if (el) { el.focus(); el.select(); } }, 20); break;
